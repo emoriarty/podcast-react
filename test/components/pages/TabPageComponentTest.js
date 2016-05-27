@@ -7,16 +7,16 @@
 // import TestUtils from 'react-addons-test-utils';
 import createComponent from 'helpers/shallowRenderHelper';
 
-import LayoutTabsComponent from 'components/nav/LayoutTabsComponent.js';
+import TabPageComponent from 'components/pages/TabPageComponent.js';
 
-describe('LayoutTabsComponent', () => {
+describe('TabPageComponent', () => {
   let component;
 
   beforeEach(() => {
-    component = createComponent(LayoutTabsComponent);
+    component = createComponent(TabPageComponent);
   });
 
   it('should have its component name as default className', () => {
-    expect(component.props.className).to.equal('layouttabs-component');
+    expect(component.props.className).to.equal('tabpage-component');
   });
 });

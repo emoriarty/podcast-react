@@ -1,10 +1,11 @@
+require('material-design-lite/material.js');
+require('material-design-lite/material.css');
 require('normalize.css/normalize.css');
 require('styles/App.css');
 
 import React from 'react';
 
-import LayoutTabs from './nav/LayoutTabsComponent';
-
+import LayoutTabs from './layouts/TabsComponent';
 
 class AppComponent extends React.Component {
   render() {
