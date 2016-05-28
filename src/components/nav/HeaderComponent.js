@@ -5,9 +5,9 @@ import React from 'react';
 require('styles/nav/Header.sass');
 
 let HeaderComponent = (props) => (
-  <header className="mdl-layout__header">
+  <header className="header-component mdl-layout__header">
 
-    <div className="mdl-layout__header-row">
+    <div className="mdl-layout--large-screen-only mdl-layout__header-row">
       <span className="mdl-layout-title">{props.title}</span>
     </div>
 

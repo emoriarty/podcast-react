@@ -4,9 +4,9 @@ import React from 'react';
 
 import Header from '../nav/HeaderComponent';
 import HeaderTabs from '../tabs/HeaderTabsComponent';
-import Drawer from '../nav/DrawerComponent';
 import Pages from './TabPagesComponent';
 import Page from '../pages/TabPageComponent';
+import HomePage from '../pages/HomePageComponent';
 
 require('styles/layouts/Tabs.sass');
 
@@ -52,13 +52,19 @@ class TabsComponent extends React.Component {
           <HeaderTabs pages={this.state.pages} />
         </Header>
 
-        <Drawer title={this.state.appName} />
-
         <Pages>
-          {this.state.pages.map((page) => (
-            <Page key={page.id} data={page}>
-              <img src={yeomanImage} alt="Yeoman Generator" />
-            </Page>))}
+          {this.state.pages.map((page) => {
+            switch(page.id) {
+              case 'home':
+                return <HomePage key={page.id} data={page} />;
+              default:
+                return (
+                  <Page key={page.id} data={page}>
+                    <img src={yeomanImage} alt="Yeoman Generator" />
+                  </Page>
+                );
+            };
+          })}
         </Pages>
 
       </div>

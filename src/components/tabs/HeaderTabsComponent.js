@@ -10,7 +10,7 @@ let HeaderTabsComponent = (props) => {
   let tabs = props.pages.map((page) => (<Tab key={page.id} active={page.active} id={page.id} name={page.title} />));
 
   return (
-    <div className="mdl-layout__tab-bar mdl-js-ripple-effect">
+    <div className="headertabs-component mdl-layout__tab-bar mdl-js-ripple-effect">
       {tabs}
     </div>
   );

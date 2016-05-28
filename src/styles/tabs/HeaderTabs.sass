@@ -1,2 +1,11 @@
+@import "../../../node_modules/breakpoint-sass/stylesheets/_breakpoint.scss"
+@import "../core/variables"
+
 .headertabs-component
-  border: 1px dashed #f00
+  &.mdl-layout__tab-bar 
+    height: 100%
+    padding-left: 1rem
+    width: calc(100% - 2rem)
+
+    @include breakpoint($large)
+      padding-left: $padding-large
