@@ -22,7 +22,25 @@ class TabsComponent extends React.Component {
       pages: [{
         id: 'home',
         title: 'Home',
-        active: true
+        active: true,
+        data: {  
+          topfive: [{ 
+            name: 'La órbita de Endor', 
+            icon: '//cdn.webstatics.net/podcast/podcastimage_477376.gif'
+          }, {
+            name: 'Todopoderosos', 
+            icon: '//pbs.twimg.com/profile_images/565955444963692544/wXLomgB-.jpeg'
+          }, {
+            name: 'La rosa de los vientos', 
+            icon: '//epg.ondacero.es/static/images/sections/section_1002825.png'
+          }, {
+            name: 'Negra y criminal', 
+            icon: '//cdn.webstatics.net/podcast/podcastimage_477376.gif'
+          }, {
+            name: 'Carne cruda', 
+            icon: '//lareplica.es/wp-content/uploads/2015/07/Carne_cruda_logo.jpg'
+          }]
+        } 
       }, {
         id: 'podcasts',
         title: 'My podcasts'

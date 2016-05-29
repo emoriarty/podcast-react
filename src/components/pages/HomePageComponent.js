@@ -2,7 +2,13 @@
 
 import React from 'react';
 
-import HomeCard from '../cards/HomeCardComponent';
+import Card from '../cards/CardComponent';
+import CardHeader from '../cards/CardHeaderComponent';
+import CardBody from '../cards/CardBodyComponent';
+import CardActions from '../cards/CardActionsComponent';
+import CardMenu from '../cards/CardMenuComponent';
+import List from '../lists/ListComponent';
+import PodcastListItem from '../lists/PodcastListItemComponent';
 
 require('styles/pages/HomePage.sass');
 
@@ -13,11 +19,25 @@ class HomePageComponent extends React.Component {
 
     return (
       <section id={this.props.data.id} className={className}>
-        <HomeCard />
-        <HomeCard />
-        <HomeCard />
-        <HomeCard />
-        <HomeCard />
+        <Card>
+          <CardHeader title="Top Five" />
+          <CardBody>
+            <List>
+              { this.props.page.data.topfive.map(item => 
+                <PodcastListItem name={item.name} icon={item.icon} />) }
+            </List>
+          </CardBody>
+          <CardActions>
+            <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+              Get Started
+            </a>
+          </CardActions>
+          <CardMenu>
+            <button className="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+              <i className="material-icons">share</i>
+            </button>
+          </CardMenu>
+        </Card>
       </section>
     );
   }
