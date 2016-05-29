@@ -46,7 +46,7 @@ class TabsComponent extends React.Component {
 
   render() {
     return (
-      <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <div className="tabs-component mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
         <Header title={this.state.appName}>
           <HeaderTabs pages={this.state.pages} />

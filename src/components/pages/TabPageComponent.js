@@ -10,7 +10,7 @@ class TabPageComponent extends React.Component {
     if (this.props.data.active) className += ' is-active';
 
     return (
-      <section className={className} id={this.props.data.id}>
+      <section id={this.props.data.id} className={className}>
         <div className="page-content">
           <h1>{this.props.data.title}</h1>
           {this.props.children}
