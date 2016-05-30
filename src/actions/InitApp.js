@@ -1,18 +1,7 @@
-import YUI from 'yui/yui/yui.js';
 import _ from 'underscore';
 
-//let YUI = require('yui/yui/yui.js');
-
-export const INIT_APP = 'INIT_APP';
-
-export const initApp = () => {
-  return {
-    type: INIT_APP
-  }
-}
-
 export const REQUEST_INITIAL_DATA = 'REQUEST_INITIAL_DATA'
-function requestInitialData(data) {
+function requestInitialData() {
   return {
     type: REQUEST_INITIAL_DATA
   }
@@ -35,10 +24,20 @@ function errorInitialData() {
   }
 }
 
-export function fetchInitialData() {
-  return function (dispatch, getState) {
-    dispatch(requestInitialData());
+function shouldFetchData(state) {
+  const data = state.coreData;
+  if (!data.data) {
+    return true
+  } else if (data.loading) {
+    return false
+  }
+  
+  return false
+}
 
+function fetchData() {
+  return dispatch => {
+    dispatch(requestInitialData())
     try {
       YUI().use('yql', (Y) => {
         Y.YQL('select * from html where url=\'https://rss.itunes.apple.com/data/media-types.json\'', function(r) {
@@ -51,7 +50,16 @@ export function fetchInitialData() {
       });
     }
     catch (e) {
+      console.log(e);
       dispatch(errorInitialData());
+    }
+  }
+}
+
+export function fetchInitialData() {
+  return (dispatch, getState) => {
+    if (shouldFetchData(getState())) {
+      return dispatch(fetchData());
     }
   }
 }

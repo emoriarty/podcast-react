@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import Card from '../cards/CardComponent';
 import CardHeader from '../cards/CardHeaderComponent';
@@ -23,8 +23,8 @@ class HomePageComponent extends React.Component {
           <CardHeader title="Top Five" />
           <CardBody>
             <List>
-              { this.props.page.data.topfive.map(item => 
-                <PodcastListItem name={item.name} icon={item.icon} />) }
+              { this.props.data.data.topodcasts.map(item =>
+                <PodcastListItem key={item.id} name={item.name} icon={item.icon} />) }
             </List>
           </CardBody>
           <CardActions>
@@ -46,7 +46,9 @@ class HomePageComponent extends React.Component {
 HomePageComponent.displayName = 'PagesHomePageComponent';
 
 // Uncomment properties you need
-// HomePageComponent.propTypes = {};
+HomePageComponent.propTypes = {
+  data: PropTypes.object.isRequired
+};
 // HomePageComponent.defaultProps = {};
 
 export default HomePageComponent;

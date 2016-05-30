@@ -1,6 +1,7 @@
 import {
   REQUEST_INITIAL_DATA,
-  RECEIVE_INITIAL_DATA, ERROR_INITIAL_DATA
+  RECEIVE_INITIAL_DATA, 
+  ERROR_INITIAL_DATA
 } from '../actions/InitApp'
 
 
@@ -14,7 +15,7 @@ const initialState = {
 function initData(state = initialState, action) {
   switch(action.type) {
     case REQUEST_INITIAL_DATA:
-      return { ...state, loading: true }
+      return { ...state, ready: false,loading: true }
     case RECEIVE_INITIAL_DATA:
       return { ...state, ready: true, loading: false }
     case ERROR_INITIAL_DATA:
@@ -27,7 +28,7 @@ export const InitApp = (state = {}, action) => {
     case REQUEST_INITIAL_DATA:
     case RECEIVE_INITIAL_DATA:
     case ERROR_INITIAL_DATA:
-      return initData()
+      return initData(state, action)
     default:
       return state
   }

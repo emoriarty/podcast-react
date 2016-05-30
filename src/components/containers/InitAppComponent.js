@@ -3,6 +3,7 @@
 require('styles/containers/InitApp.sass')
 
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import { fetchInitialData } from '../../actions/InitApp'
 import LayoutTabs from '../layouts/TabsComponent'
 
@@ -12,15 +13,24 @@ class InitAppComponent extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, selectedSubreddit } = this.props
-    dispatch(fetchInitialDat())
+    const { dispatch, coreData } = this.props
+    dispatch(fetchInitialData())
+  }
+  
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data) {
+      console.log(data);
+    }
+    else {
+      // Show an error
+    }
   }
 
   render() {
     const { coreData } = this.props
     return (
       <div className="index">
-        <LayoutTabs data={coreData} />
+        <LayoutTabs coreData={coreData} />
       </div>
     );
   }
@@ -36,4 +46,12 @@ InitAppComponent.propTypes = {
 }
 // InitAppComponent.defaultProps = {};
 
-export default InitAppComponent
+function mapStateToProps(state) {
+  const { coreData } = state
+
+  return {
+    coreData
+  }
+}
+
+export default connect(mapStateToProps)(InitAppComponent)
