@@ -1,18 +1,21 @@
 require('material-design-lite/material.js');
 require('material-design-lite/material.css');
 require('normalize.css/normalize.css');
-require('styles/App.css');
+require('styles/App.sass');
 
 import React from 'react';
+import { Provider } from 'react-redux';
+import configureStore from '../config/configureStore';
+import InitApp from './containers/InitAppComponent';
 
-import LayoutTabs from './layouts/TabsComponent';
+const store = configureStore();
 
 class AppComponent extends React.Component {
   render() {
     return (
-      <div className="index">
-        <LayoutTabs />
-      </div>
+      <Provider store={store}>
+        <InitApp />
+      </Provider>
     );
   }
 }

@@ -1,4 +1,7 @@
-import fetch from 'isomorphic-fetch'
+import YUI from 'yui/yui/yui.js';
+import _ from 'underscore';
+
+//let YUI = require('yui/yui/yui.js');
 
 export const INIT_APP = 'INIT_APP';
 
@@ -6,21 +9,17 @@ export const initApp = () => {
   return {
     type: INIT_APP
   }
-} 
-
-
-
+}
 
 export const REQUEST_INITIAL_DATA = 'REQUEST_INITIAL_DATA'
 function requestInitialData(data) {
   return {
-    type: REQUEST_INITIAL_DATA,
-    data
+    type: REQUEST_INITIAL_DATA
   }
 }
 
 export const RECEIVE_INITIAL_DATA = 'RECEIVE_INITIAL_DATA'
-function receiveInitialData(data, json) {
+function receiveInitialData(data) {
   return {
     type: RECEIVE_INITIAL_DATA,
     data,
@@ -29,32 +28,30 @@ function receiveInitialData(data, json) {
 }
 
 export const ERROR_INITIAL_DATA = 'ERROR_INITIAL_DATA'
-function errorInitialData(subreddit) {
+function errorInitialData() {
   return {
-    type: ERROR_INITIAL_DATA
+    type: ERROR_INITIAL_DATA,
+    error: 'Ups, something went wrong'
   }
 }
 
-export function fetchInitialData(subreddit) {
-  return function (dispatch) {
-    dispatch(requestInitialData(subreddit));
+export function fetchInitialData() {
+  return function (dispatch, getState) {
+    dispatch(requestInitialData());
 
-    return fetch(`http://www.reddit.com/r/${subreddit}.json`)
-      .then((response) => {
-        if (response.status >= 400) {
-          throw new Error("Bad response from server");
-        }
-        else if (response.status != 200) {
-          throw new Error("Not valid response");
-        }
-
-        return response;
-      })
-      .then(json =>
-        dispatch(receiveInitialData(subreddit, json))
-      )
-
-      // In a real world app, you also want to
-      // catch any error in the network call.
+    try {
+      YUI().use('yql', (Y) => {
+        Y.YQL('select * from html where url=\'https://rss.itunes.apple.com/data/media-types.json\'', function(r) {
+          console.log(r);
+          let PODCAST_TYPES = JSON.parse(r.query.results.body);
+          PODCAST_TYPES = _.findWhere(PODCAST_TYPES, {store: 'podcast'});
+          console.log('PODCAST_TYPES', PODCAST_TYPES);
+          dispatch(receiveInitialData(PODCAST_TYPES));
+        });
+      });
+    }
+    catch (e) {
+      dispatch(errorInitialData());
+    }
   }
 }

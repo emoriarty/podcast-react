@@ -1,5 +1,5 @@
 import * as InitApp from './InitApp';
 
-const App = { ...InitApp };
+const AppActions = { ...InitApp };
 
 export default AppActions;
