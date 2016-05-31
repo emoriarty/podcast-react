@@ -1,8 +1,10 @@
 import _ from 'underscore';
 import fetch from 'isomorphic-fetch'
 
-//const PROVIDER_HOST = 'https://rss.itunes.apple.com'
-const PROVIDER_HOST = '/mocks'
+const config = require('config')
+console.log('config', config)
+const ENV = config.default.appEnv
+const PROVIDER_HOST = '/assets' + config.default.providerHost 
 
 export const REQUEST_INITIAL_DATA = 'REQUEST_INITIAL_DATA'
 function requestInitialData() {
@@ -40,72 +42,79 @@ function shouldFetchData(state) {
 }
 
 function yuiCall(url) {
-  return new Promise((resolve, reject) => {
-    try {
-      YUI().use('yql', (Y) => {
-        Y.YQL('select * from html where url=\'' + url + '\'', (r) => {
-          if (r.query.results.body.length > 0) {
-            resolve({
-              results: JSON.parse(r.query.results.body)
-            })
-          }
-          else {
-            reject({
-              message: 'No results'
-            })
-          }
-       })
-      })
-    }
-    catch(e) {
-      reject({
-        message: e
-      });
-    }
-  })
+  if (ENV === 'dist') {
+    return new Promise((resolve, reject) => {
+      try {
+        YUI().use('yql', (Y) => {
+          Y.YQL('select * from html where url=\'' + PROVIDER_HOST + url + '\'', (r) => {
+            if (r.query.results.body.length > 0) {
+              resolve({
+                results: JSON.parse(r.query.results.body)
+              })
+            }
+            else {
+              reject({
+                message: 'No results'
+              })
+            }
+         })
+        })
+      }
+      catch(e) {
+        reject({
+          message: e
+        });
+      }
+    })
+  }
+  else {
+    console.log(PROVIDER_HOST, ENV)
+    fetch(PROVIDER_HOST + url)
+      .then(r => resolve(JSON.parse({ results: r })))
+  }
 }
 
 function fetchMediaTypes() {
-  return yuiCall(PROVIDER_HOST + '/data/media-types.json')
-      .then((r) => {
-        return _.findWhere(r.results, {store: 'podcast'})
-      })
+  return yuiCall('/data/media-types.json')
+    .then((r) => {
+      return _.findWhere(r.results, {store: 'podcast'})
+    })
 }
 
 function fetchCountries() {
-  return yuiCall(PROVIDER_HOST + '/data/countries.json')
-      .then(r => {
-        let countriesWithPodcasts = _.inject(r.results, function(memo, country) {
-          if (country.stores.podcast) {
-            // If the country icon link has no host, then add it
-            if (!country.flag_icon.match(/^(http|https):\/\//)) {
-              memo.push({ ...country, flag_icon: 'https://rss.itunes.apple.com' + country.flag_icon }); 
-            }
-            else {
-              memo.push(country);
-            }
+  return yuiCall('/data/countries.json')
+    .then(r => {
+      let countriesWithPodcasts = _.inject(r.results, function(memo, country) {
+        if (country.stores.podcast) {
+          // If the country icon link has no host, then add it
+          if (!country.flag_icon.match(/^(http|https):\/\//)) {
+            memo.push({ ...country, flag_icon: 'https://rss.itunes.apple.com' + country.flag_icon }); 
           }
-          return memo;
-        }, []);
+          else {
+            memo.push(country);
+          }
+        }
+        return memo;
+      }, []);
 
-        // grouping by region
-        console.log(_.groupBy(countriesWithPodcasts, (country) => country.region))
+      // grouping by region
+      console.log(_.groupBy(countriesWithPodcasts, (country) => country.region))
 
-        //
+      //
 
-        return countriesWithPodcasts
-      })
+      return countriesWithPodcasts
+    })
 }
 
 function fetchMediaTypesTranslations(language) {
-  return yuiCall(PROVIDER_HOST + '/data/lang/' + language + 'media-types.json')
+  return yuiCall('/data/lang/' + language + 'media-types.json')
     .then(r => {
       return r.results
     })
 }
 
 function fetchCommonTranslations(language) {
-  return yuiCall(PROVIDER_HOST + '/data/lang/' + language + 'common.json')
+  return yuiCall('/data/lang/' + language + 'common.json')
     .then(r => {
       return r.results
     })
