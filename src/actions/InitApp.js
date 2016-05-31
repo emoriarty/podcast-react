@@ -1,4 +1,8 @@
 import _ from 'underscore';
+import fetch from 'isomorphic-fetch'
+
+//const PROVIDER_HOST = 'https://rss.itunes.apple.com'
+const PROVIDER_HOST = '/mocks'
 
 export const REQUEST_INITIAL_DATA = 'REQUEST_INITIAL_DATA'
 function requestInitialData() {
@@ -35,23 +39,121 @@ function shouldFetchData(state) {
   return false
 }
 
-function fetchData() {
-  return dispatch => {
-    dispatch(requestInitialData())
+function yuiCall(url) {
+  return new Promise((resolve, reject) => {
     try {
       YUI().use('yql', (Y) => {
-        Y.YQL('select * from html where url=\'https://rss.itunes.apple.com/data/media-types.json\'', function(r) {
-          console.log(r);
-          let PODCAST_TYPES = JSON.parse(r.query.results.body);
-          PODCAST_TYPES = _.findWhere(PODCAST_TYPES, {store: 'podcast'});
-          console.log('PODCAST_TYPES', PODCAST_TYPES);
-          dispatch(receiveInitialData(PODCAST_TYPES));
-        });
+        Y.YQL('select * from html where url=\'' + url + '\'', (r) => {
+          if (r.query.results.body.length > 0) {
+            resolve({
+              results: JSON.parse(r.query.results.body)
+            })
+          }
+          else {
+            reject({
+              message: 'No results'
+            })
+          }
+       })
+      })
+    }
+    catch(e) {
+      reject({
+        message: e
       });
     }
+  })
+}
+
+function fetchMediaTypes() {
+  return yuiCall(PROVIDER_HOST + '/data/media-types.json')
+      .then((r) => {
+        return _.findWhere(r.results, {store: 'podcast'})
+      })
+}
+
+function fetchCountries() {
+  return yuiCall(PROVIDER_HOST + '/data/countries.json')
+      .then(r => {
+        let countriesWithPodcasts = _.inject(r.results, function(memo, country) {
+          if (country.stores.podcast) {
+            // If the country icon link has no host, then add it
+            if (!country.flag_icon.match(/^(http|https):\/\//)) {
+              memo.push({ ...country, flag_icon: 'https://rss.itunes.apple.com' + country.flag_icon }); 
+            }
+            else {
+              memo.push(country);
+            }
+          }
+          return memo;
+        }, []);
+
+        // grouping by region
+        console.log(_.groupBy(countriesWithPodcasts, (country) => country.region))
+
+        //
+
+        return countriesWithPodcasts
+      })
+}
+
+function fetchMediaTypesTranslations(language) {
+  return yuiCall(PROVIDER_HOST + '/data/lang/' + language + 'media-types.json')
+    .then(r => {
+      return r.results
+    })
+}
+
+function fetchCommonTranslations(language) {
+  return yuiCall(PROVIDER_HOST + '/data/lang/' + language + 'common.json')
+    .then(r => {
+      return r.results
+    })
+}
+
+// The ones from the app (local)
+function fetchTranslations(language) {
+  return new Promise((resolve, reject) => {
+    fetch('/translations/' + language + '.json')
+      .then(r => resolve(JSON.parse(r)))
+      .catch(e => {
+        if (language.length > 3) {
+          fetch('/translations/' + language.slice(0, 2) + '.json')
+            .then(r => resolve(JSON.parse(r)))
+            .catch(e => reject())// TODO add error message
+        }
+        else {
+          // TODO add error message
+          reject();
+        }
+      })
+  })
+}
+
+function fetchData(language = navigator.language) {
+  return dispatch => {
+    dispatch(requestInitialData())
+
+    try {
+      Promise.all([
+        fetchMediaTypes(),
+        fetchCountries(),
+        fetchTranslations(language)
+      ])
+      .then(
+        (result) => {
+          dispatch(receiveInitialData({ 
+            commons: result[0], // common values
+            countries: result[1] // countries metadata
+          }))
+        },
+        (error) => {
+          dispatch(errorInitialData(error))
+        }
+      )
+    }
     catch (e) {
-      console.log(e);
-      dispatch(errorInitialData());
+      dispatch(errorInitialData(e));
     }
   }
 }

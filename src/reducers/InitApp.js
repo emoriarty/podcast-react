@@ -1,6 +1,6 @@
 import {
   REQUEST_INITIAL_DATA,
-  RECEIVE_INITIAL_DATA, 
+  RECEIVE_INITIAL_DATA,
   ERROR_INITIAL_DATA
 } from '../actions/InitApp'
 
@@ -17,7 +17,9 @@ function initData(state = initialState, action) {
     case REQUEST_INITIAL_DATA:
       return { ...state, ready: false,loading: true }
     case RECEIVE_INITIAL_DATA:
-      return { ...state, ready: true, loading: false }
+      return { ...state, ready: true, loading: false, 
+        commons: action.data.commons,
+        countries: action.data.countries }
     case ERROR_INITIAL_DATA:
       return { ...state, ready: false, loading: false }
   }

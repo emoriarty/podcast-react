@@ -67,6 +67,7 @@
   },
   "dependencies": {
     "core-js": "^2.0.0",
+    "dialog-polyfill": "^0.4.3",
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
     "material-design-lite": "^1.1.3",
