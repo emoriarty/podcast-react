@@ -1,11 +1,12 @@
 'use strict';
 
 import React, { Component, PropTypes } from 'react';
+import Dialog from './DialogComponent';
 
 require('styles/dialogs/Dialog.sass');
 require('styles/dialogs/CountriesDialog.sass');
 
-class CountriesDialogComponent extends Component {
+class CountriesDialogComponent extends Dialog {
   constructor(props) {
     super(props)
   }
@@ -14,18 +15,15 @@ class CountriesDialogComponent extends Component {
     let countries = nextProps.countries
 
     if (countries && countries.length > 0) {
-      console.log(this.el)
-      //this.el.open()
       window.loadingScreen.finish()
     }
   }
 
   render() {
     return (
-      <dialog 
-        open="false"
+      <dialog
         ref={ (ref) => this.el = ref }
-        id="countries-dialog" 
+        id="countries-dialog"
         className="mdl-dialog dialog-component countriesdialog-component">
         <div className="mdl-dialog__content">
           <h2>Choose your country</h2>
@@ -50,7 +48,7 @@ CountriesDialogComponent.displayName = 'DialogsCountriesDialogComponent';
 
 // Uncomment properties you need
 CountriesDialogComponent.propTypes = {
-  countries: PropTypes.array.isRequired
+  countries: PropTypes.array
 };
 
 CountriesDialogComponent.defaultProps = {}

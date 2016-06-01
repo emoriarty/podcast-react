@@ -2,9 +2,8 @@ import _ from 'underscore';
 import fetch from 'isomorphic-fetch'
 
 const config = require('config')
-console.log('config', config)
 const ENV = config.default.appEnv
-const PROVIDER_HOST = '/assets' + config.default.providerHost 
+const PROVIDER_HOST = config.default.providerHost
 
 export const REQUEST_INITIAL_DATA = 'REQUEST_INITIAL_DATA'
 function requestInitialData() {
@@ -26,7 +25,8 @@ export const ERROR_INITIAL_DATA = 'ERROR_INITIAL_DATA'
 function errorInitialData() {
   return {
     type: ERROR_INITIAL_DATA,
-    error: 'Ups, something went wrong'
+    errorTitle: 'Terminal error',
+    errorMessage: 'This is embarrasing but the app has crashed. Click the button to reload, in case this message is shown again, please let us know.'
   }
 }
 
@@ -37,7 +37,7 @@ function shouldFetchData(state) {
   } else if (data.loading) {
     return false
   }
-  
+
   return false
 }
 
@@ -68,15 +68,25 @@ function yuiCall(url) {
     })
   }
   else {
-    console.log(PROVIDER_HOST, ENV)
-    fetch(PROVIDER_HOST + url)
-      .then(r => resolve(JSON.parse({ results: r })))
+    return new Promise((resolve, reject) => {
+      fetch(PROVIDER_HOST + url)
+        .then(r => {
+          if (r.status == 200)
+            r.json()
+              .then(results => resolve({ results }))
+          else if (r.status >= 400)
+            reject({ message: 'Something happend when fetching data' })
+          else
+            reject({ message: 'No results' })
+        })
+    })
   }
 }
 
 function fetchMediaTypes() {
   return yuiCall('/data/media-types.json')
     .then((r) => {
+      console.log(r)
       return _.findWhere(r.results, {store: 'podcast'})
     })
 }
@@ -88,7 +98,7 @@ function fetchCountries() {
         if (country.stores.podcast) {
           // If the country icon link has no host, then add it
           if (!country.flag_icon.match(/^(http|https):\/\//)) {
-            memo.push({ ...country, flag_icon: 'https://rss.itunes.apple.com' + country.flag_icon }); 
+            memo.push({ ...country, flag_icon: 'https://rss.itunes.apple.com' + country.flag_icon });
           }
           else {
             memo.push(country);
@@ -123,11 +133,11 @@ function fetchCommonTranslations(language) {
 // The ones from the app (local)
 function fetchTranslations(language) {
   return new Promise((resolve, reject) => {
-    fetch('/translations/' + language + '.json')
+    fetch('/assets/translations/' + language + '.json')
       .then(r => resolve(JSON.parse(r)))
       .catch(e => {
         if (language.length > 3) {
-          fetch('/translations/' + language.slice(0, 2) + '.json')
+          fetch('/assets/translations/' + language.slice(0, 2) + '.json')
             .then(r => resolve(JSON.parse(r)))
             .catch(e => reject())// TODO add error message
         }
@@ -151,7 +161,7 @@ function fetchData(language = navigator.language) {
       ])
       .then(
         (result) => {
-          dispatch(receiveInitialData({ 
+          dispatch(receiveInitialData({
             commons: result[0], // common values
             countries: result[1] // countries metadata
           }))

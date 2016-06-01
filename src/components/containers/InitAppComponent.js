@@ -5,8 +5,10 @@ require('styles/containers/InitApp.sass')
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { fetchInitialData } from '../../actions/InitApp'
+import { showTerminalError } from '../../actions/Errors'
 import LayoutTabs from '../layouts/TabsComponent'
 import CountriesDialog from '../dialogs/CountriesDialogComponent'
+import MessageDialog from '../dialogs/MessageDialogComponent'
 import Page from '../pages/TabPageComponent';
 import HomePage from '../pages/HomePageComponent';
 
@@ -17,6 +19,10 @@ class InitAppComponent extends Component {
     super(props)
 
     this.state = {
+      modals: {
+        isShowingCoutries: false,
+        isShowingMessage: false
+      },
       appName: 'Podcaster',
       pages: [{
         id: 'home',
@@ -60,46 +66,60 @@ class InitAppComponent extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props
-    var dialogs = document.querySelectorAll('.dialog-component');
-
-    if (!dialogs[0].showModal) {
-      dialogs.forEach((dialog) => dialogPolyfill.registerDialog(dialog));
-    }
-
     dispatch(fetchInitialData())
   }
-  
+
   componentWillReceiveProps(nextProps) {
+    const { dispatch } = this.props
     let data = nextProps.coreData
 
-    if (data.countries && data.countries.length > 0) {
+    if (!data.errorMessage) {
+      if (data.countries && data.countries.length > 0) {
+        window.loadingScreen.finish()
+      }
+    } else {
+      // Show an error
+      dispatch(showTerminalError())
+      this.setState({
+        isShowingMessage: true
+      })
       window.loadingScreen.finish()
     }
-    else {
-      // Show an error
-    }
+  }
+
+  reload() {
+    window.location.reload();
   }
 
   render() {
     const { coreData } = this.props
+
     return (
       <div className="index">
-        <CountriesDialog countries={coreData.countries || []} />
 
-        <LayoutTabs appName={this.state.appName} pages={this.state.pages}>
-          {this.state.pages.map((page) => {
-            switch(page.id) {
-              case 'home':
-                return <HomePage key={page.id} data={page} />;
-              default:
-                return (
-                  <Page key={page.id} data={page}>
-                    <img src={yeomanImage} alt="Yeoman Generator" />
-                  </Page>
-                );
-            }
-          })}
-        </LayoutTabs>
+        { this.state.isShowingMessage &&
+            <MessageDialog title={coreData.errorTitle}
+              message={coreData.errorMessage}
+              onAccept={this.reload} /> }
+        { this.state.isShowingCountries &&
+            <CountriesDialog countries={coreData.countries || []} /> }
+
+        { coreData.ready &&
+            <LayoutTabs appName={this.state.appName} pages={this.state.pages}>
+              {this.state.pages.map((page) => {
+                switch(page.id) {
+                  case 'home':
+                    return <HomePage key={page.id} data={page} />;
+                  default:
+                    return (
+                      <Page key={page.id} data={page}>
+                        <img src={yeomanImage} alt="Yeoman Generator" />
+                      </Page>
+                    );
+                }
+              })}
+            </LayoutTabs> }
+
       </div>
     );
   }
