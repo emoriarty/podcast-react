@@ -3,14 +3,15 @@
 require('styles/containers/InitApp.sass')
 
 import React, { Component, PropTypes } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { fetchInitialData } from '../../actions/InitApp'
-import { showTerminalError } from '../../actions/Errors'
 import LayoutTabs from '../layouts/TabsComponent'
 import CountriesDialog from '../dialogs/CountriesDialogComponent'
-import MessageDialog from '../dialogs/MessageDialogComponent'
-import Page from '../pages/TabPageComponent';
-import HomePage from '../pages/HomePageComponent';
+import Page from '../pages/TabPageComponent'
+import HomePage from '../pages/HomePageComponent'
+import Notification from '../../notifications/components/notification.component'
+import * as NotificationActions from '../../notifications/actions/notification.action'
 
 const yeomanImage = require('../../images/yeoman.png');
 
@@ -23,6 +24,7 @@ class InitAppComponent extends Component {
         isShowingCoutries: false,
         isShowingMessage: false
       },
+      message: '',
       appName: 'Podcaster',
       pages: [{
         id: 'home',
@@ -65,42 +67,48 @@ class InitAppComponent extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(fetchInitialData())
+    this.props.dispatch(fetchInitialData())
   }
 
   componentWillReceiveProps(nextProps) {
-    const { dispatch } = this.props
     let data = nextProps.coreData
+    //this.manageData(data)
+    if (data.fail || data.ready)
+      window.loadingScreen.finish();
 
-    if (!data.errorMessage) {
-      if (data.countries && data.countries.length > 0) {
-        window.loadingScreen.finish()
-      }
-    } else {
-      // Show an error
-      dispatch(showTerminalError())
-      this.setState({
-        isShowingMessage: true
-      })
-      window.loadingScreen.finish()
-    }
   }
 
   reload() {
     window.location.reload();
   }
 
+  manageData(data) {
+    if (data.countries && data.countries.length > 0) {
+      window.loadingScreen.finish()
+    }
+
+    if (data.ready) {
+      this.closeSplash()
+    }
+  }
+
+  isSplash() {
+    return !document.classList.contains('pg-loaded')
+  }
+
+  closeSplash() {
+    if (this.isSplash())
+      window.loadingScreen.finish()
+  }
+
   render() {
-    const { coreData } = this.props
+    const { coreData, message } = this.props
 
     return (
       <div className="index">
 
-        { this.state.isShowingMessage &&
-            <MessageDialog title={coreData.errorTitle}
-              message={coreData.errorMessage}
-              onAccept={this.reload} /> }
+        <Notification />
+
         { this.state.isShowingCountries &&
             <CountriesDialog countries={coreData.countries || []} /> }
 
@@ -131,16 +139,23 @@ InitAppComponent.displayName = 'ContainersInitAppComponent';
 
 InitAppComponent.propTypes = {
   coreData: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  message: PropTypes.object
 }
 // InitAppComponent.defaultProps = {};
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   const { coreData } = state
 
   return {
     coreData
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    ...bindActionCreators(NotificationActions, dispatch),
+    dispatch
+  };
+};
 
-export default connect(mapStateToProps)(InitAppComponent)
+
+export default connect(mapStateToProps, mapDispatchToProps)(InitAppComponent)

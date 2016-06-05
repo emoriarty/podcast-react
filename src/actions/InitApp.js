@@ -1,5 +1,7 @@
 import _ from 'underscore';
 import fetch from 'isomorphic-fetch'
+import { bindActionCreators } from 'redux'
+import * as Notifications from '../notifications/actions/notification.action'
 
 const config = require('config')
 const ENV = config.default.appEnv
@@ -168,6 +170,7 @@ function fetchData(language = navigator.language) {
         },
         (error) => {
           dispatch(errorInitialData(error))
+          dispatch(Notifications.showAlertSuccess('This is embarrasing but the app has crashed. Click the button to reload, in case this message is shown again, please let us know.'))
         }
       )
     }

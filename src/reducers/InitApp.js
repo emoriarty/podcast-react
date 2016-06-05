@@ -15,11 +15,16 @@ const initialState = {
 function initData(state = initialState, action) {
   switch(action.type) {
     case REQUEST_INITIAL_DATA:
-      return { ...state, ready: false,loading: true }
+      return { ...state,
+        ready: false,
+        loading: true,
+        fail: false
+      }
     case RECEIVE_INITIAL_DATA:
       return { ...state,
         ready: true,
         loading: false,
+        fail: false,
         commons: action.data.commons,
         countries: action.data.countries
       }
@@ -27,8 +32,7 @@ function initData(state = initialState, action) {
       return { ...state,
         ready: false,
         loading: false,
-        errorTitle: action.errorTitle,
-        errorMessage: action.errorMessage
+        fail: true
       }
   }
 }
