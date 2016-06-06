@@ -5,7 +5,7 @@ require('styles/containers/InitApp.sass')
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { fetchInitialData } from '../../actions/InitApp'
+import { fetchInitialData } from '../../actions/provider.action'
 import LayoutTabs from '../layouts/TabsComponent'
 import CountriesDialog from '../dialogs/CountriesDialogComponent'
 import Page from '../pages/TabPageComponent'

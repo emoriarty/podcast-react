@@ -3,14 +3,17 @@ import BaseDialog from './basedialog.component.jsx';
 import 'style!../../styles/modals/Modal.sass';
 
 class AlertComponent extends BaseDialog {
+  constructor(props) {
+    super(props)
+    this.handleAccept = this.handleAccept.bind(this)
+  }
 
   handleAccept(ev) {
-    console.log('ev', ev)
     this.el.close()
   }
 
   render() {
-    const {title, message} = this.props
+    const {title, text} = this.props
     return (
       <dialog
         ref={ (ref) => this.el = ref }
@@ -18,7 +21,7 @@ class AlertComponent extends BaseDialog {
 
         <div className="mdl-dialog__content">
           { title && <h4 class="">{title}</h4> }
-          <p>{ message }</p>
+          <p>{ text }</p>
         </div>
 
         <div className="mdl-dialog__actions mdl-dialog__actions--full-width">
@@ -35,7 +38,7 @@ class AlertComponent extends BaseDialog {
 
 AlertComponent.propTypes = {
   title: PropTypes.string,
-  message: PropTypes.string.isRequired,
+  text: PropTypes.string,
   action: PropTypes.func
 };
 

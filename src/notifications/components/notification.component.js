@@ -8,20 +8,14 @@ import * as notificationActionCreators from '../actions/notification.action';
 class notificationContainer extends React.Component {
 
   componentWillReceiveProps(nextProps) {
-    this.alert.el.showModal();
-  }
-
-  getMessage() {
-    let message = this.props.notification.text;
-    return message;
+    if (nextProps.notification.alert)
+      this.alert.el.showModal();
   }
 
   render() {
-    const message = this.getMessage();
     return <Alert
       ref={ (ref) => this.alert = ref }
-      {...this.props}
-      message={message} />;
+      {...this.props.notification.alert} />;
   }
 }
 
