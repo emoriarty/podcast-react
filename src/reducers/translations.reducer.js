@@ -12,21 +12,21 @@ const initialState = {
 
 function checkFetchActions(state, action) {
   switch(action.type) {
-    case REQUEST_PROVIDER_DATA:
+    case REQUEST_TRANSLATIONS:
       return {
-      ...state,
+        ...state,
         ready: false,
         loading: true,
         fail: false
       }
-    case RECEIVE_PROVIDER_DATA:
+    case RECEIVE_TRANSLATIONS:
       return {
         ...state,
         ready: true,
         loading: false,
-        fail: false,
+        fail: false
       }
-    case ERROR_PROVIDER_DATA:
+    case ERROR_TRANSLATIONS:
       return {
         ...state,
         ready: false,

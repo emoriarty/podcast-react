@@ -6,6 +6,11 @@ import {
 import {
   fetchTranslations
 } from '../services/translations.service'
+import {
+  fetchMediaTypesTranslations,
+  fetchCommonTranslations
+} from '../services/itunes.service'
+import * as Notifications from './notification.action'
 
 function requestData() {
   return {
@@ -16,7 +21,7 @@ function requestData() {
 function receiveData(data) {
   return {
     type: RECEIVE_TRANSLATIONS,
-    data,
+    ...data.app,
     receivedAt: Date.now()
   }
 }
@@ -29,7 +34,7 @@ function errorFetchingData() {
 
 function shouldFetchData(state) {
   const data = state.translations;
-  if (!data) {
+  if (!data.data) {
     return true
   } else if (data.loading) {
     return false
@@ -44,13 +49,16 @@ function fetchData(language) {
 
     try {
       Promise.all([
-        fetchTranslations(language)
+        fetchTranslations(language),
+        fetchCommonTranslations(language),
+        fetchMediaTypesTranslations(language)
       ])
       .then(
         (result) => {
           dispatch(receiveData({
-            commons: result[0], // common values
-            countries: result[1] // countries metadata
+            app: result[0],
+            commons: result[1],
+            mediaTypes: result[2]
           }))
         },
         (error) => {
@@ -68,10 +76,10 @@ function fetchData(language) {
     }
   }
 }
-export function fetchTranslations(language = navigator.language) {
+export function fetchTranslationsData(language = navigator.language) {
   return (dispatch, getState) => {
     if (shouldFetchData(getState())) {
-      return dispatch(fetchData());
+      return dispatch(fetchData(language));
     }
   }
 }

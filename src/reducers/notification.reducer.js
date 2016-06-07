@@ -9,8 +9,8 @@ export const notification = (state = initialState, action) => {
   switch (action.type) {
   case ALERT__SHOW:
     return {
+      ...state,
       alert: {
-        ...state,
         ...action.alert
       }
     }

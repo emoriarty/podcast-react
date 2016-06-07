@@ -4,7 +4,7 @@
     "chooseLang": "Choose your language"
   },
   "notifications": {
-    ""
+    "error": "error"
   },
   "errors": {
     "terminalError": {
@@ -12,5 +12,4 @@
       "text": "This is embarrasing but the app has crashed. Click the button to reload, in case this message is shown again, please let us know."
     }
   }
-
 }

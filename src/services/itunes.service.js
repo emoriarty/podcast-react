@@ -35,14 +35,14 @@ export function fetchCountries() {
 }
 
 export function fetchMediaTypesTranslations(language) {
-  return yuiFetch('/data/lang/' + language + 'media-types.json')
+  return yuiFetch('/data/lang/' + language + '/media-types.json')
     .then(r => {
       return r.results
     })
 }
 
 export function fetchCommonTranslations(language) {
-  return yuiFetch('/data/lang/' + language + 'common.json')
+  return yuiFetch('/data/lang/' + language + '/common.json')
     .then(r => {
       return r.results
     })

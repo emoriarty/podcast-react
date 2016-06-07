@@ -1,9 +1,7 @@
 import * as Notifications from './notification.action'
 import {
   fetchMediaTypes,
-  fetchCountries,
-  fetchMediaTypesTranslations,
-  fetchCommonTranslations
+  fetchCountries
 } from '../services/itunes.service'
 import {
   REQUEST_PROVIDER_DATA,
@@ -33,9 +31,7 @@ function errorInitialData() {
 }
 
 function fetchData(language = navigator.language) {
-  console.log('fetch data')
   return dispatch => {
-    console.log('dispatch init')
     dispatch(requestInitialData())
 
     try {
@@ -68,7 +64,6 @@ function fetchData(language = navigator.language) {
 
 function shouldFetchData(state) {
   const data = state.provider;
-  console.log(data);
   if (!data.data) {
     return true
   } else if (data.loading) {
@@ -78,7 +73,7 @@ function shouldFetchData(state) {
   return false
 }
 
-export function fetchInitialData() {
+export function fetchProviderData() {
   return (dispatch, getState) => {
     if (shouldFetchData(getState())) {
       return dispatch(fetchData());
