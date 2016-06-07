@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
-import { InitApp } from './InitApp'
-import notificationReducer from '../notifications/reducers/notification.reducer'
+import { provider } from './provider.reducer'
+import { translations } from './translations.reducer'
+import { notification } from './notification.reducer'
 
 const AppReducers = combineReducers({
-  coreData: InitApp,
-  notification: notificationReducer
+  provider,
+  translations,
+  notification
 })
 
 export default AppReducers

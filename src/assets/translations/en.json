@@ -2,5 +2,15 @@
   "settings": {
     "chooseCountry": "Choose your country",
     "chooseLang": "Choose your language"
+  },
+  "notifications": {
+    ""
+  },
+  "errors": {
+    "terminalError": {
+      "title": "Terminal error",
+      "text": "This is embarrasing but the app has crashed. Click the button to reload, in case this message is shown again, please let us know."
+    }
   }
+
 }

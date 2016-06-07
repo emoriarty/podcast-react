@@ -1,13 +1,10 @@
-import * as Notifications from '../notifications/actions/notification.action'
+import * as Notifications from './notification.action'
 import {
-  fetchMediaTypes, 
-  fetchCountries, 
-  fetchMediaTypesTranslations, 
+  fetchMediaTypes,
+  fetchCountries,
+  fetchMediaTypesTranslations,
   fetchCommonTranslations
 } from '../services/itunes.service'
-import {
-  fetchTranslations
-} from './translation.action'
 import {
   REQUEST_PROVIDER_DATA,
   RECEIVE_PROVIDER_DATA,
@@ -31,21 +28,20 @@ function receiveInitialData(data) {
 
 function errorInitialData() {
   return {
-    type: ERROR_PROVIDER_DATA,
-    errorTitle: 'Terminal error',
-    errorMessage: 'This is embarrasing but the app has crashed. Click the button to reload, in case this message is shown again, please let us know.'
+    type: ERROR_PROVIDER_DATA
   }
 }
 
 function fetchData(language = navigator.language) {
+  console.log('fetch data')
   return dispatch => {
+    console.log('dispatch init')
     dispatch(requestInitialData())
 
     try {
       Promise.all([
         fetchMediaTypes(),
         fetchCountries(),
-        fetchTranslations(language)
       ])
       .then(
         (result) => {
@@ -71,7 +67,8 @@ function fetchData(language = navigator.language) {
 }
 
 function shouldFetchData(state) {
-  const data = state.coreData;
+  const data = state.provider;
+  console.log(data);
   if (!data.data) {
     return true
   } else if (data.loading) {

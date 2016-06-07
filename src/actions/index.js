@@ -1,9 +1,7 @@
-import * as InitApp from './InitApp';
-import * as Errors from './Errors';
+import * as ProviderActions from './provider.action';
 
 const AppActions = {
-  ...InitApp,
-  ...Errors
+  ...ProviderActions
 };
 
 export default AppActions;

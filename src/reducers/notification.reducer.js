@@ -5,7 +5,7 @@ import {
 
 const initialState = {}
 
-export default function notificationReducer(state = initialState, action) {
+export const notification = (state = initialState, action) => {
   switch (action.type) {
   case ALERT__SHOW:
     return {

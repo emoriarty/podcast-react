@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Alert from './alert.component.jsx';
-import * as notificationActionCreators from '../actions/notification.action';
+import * as notificationActionCreators from '../../actions/notification.action';
 
 
 class notificationContainer extends React.Component {

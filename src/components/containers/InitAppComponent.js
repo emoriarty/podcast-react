@@ -10,8 +10,8 @@ import LayoutTabs from '../layouts/TabsComponent'
 import CountriesDialog from '../dialogs/CountriesDialogComponent'
 import Page from '../pages/TabPageComponent'
 import HomePage from '../pages/HomePageComponent'
-import Notification from '../../notifications/components/notification.component'
-import * as NotificationActions from '../../notifications/actions/notification.action'
+import Notification from '../notifications/notification.component'
+import * as NotificationActions from '../../actions/notification.action'
 
 const yeomanImage = require('../../images/yeoman.png');
 
@@ -71,7 +71,7 @@ class InitAppComponent extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let data = nextProps.coreData
+    let data = nextProps.provider
     //this.manageData(data)
     if (data.fail || data.ready)
       window.loadingScreen.finish();
@@ -102,7 +102,7 @@ class InitAppComponent extends Component {
   }
 
   render() {
-    const { coreData, message } = this.props
+    const { provider, message } = this.props
 
     return (
       <div className="index">
@@ -110,9 +110,9 @@ class InitAppComponent extends Component {
         <Notification />
 
         { this.state.isShowingCountries &&
-            <CountriesDialog countries={coreData.countries || []} /> }
+            <CountriesDialog countries={provider.countries || []} /> }
 
-        { coreData.ready &&
+        { provider.ready &&
             <LayoutTabs appName={this.state.appName} pages={this.state.pages}>
               {this.state.pages.map((page) => {
                 switch(page.id) {
@@ -138,16 +138,16 @@ InitAppComponent.displayName = 'ContainersInitAppComponent';
 // Uncomment properties you need
 
 InitAppComponent.propTypes = {
-  coreData: PropTypes.object.isRequired,
-  message: PropTypes.object
+  provider: PropTypes.object.isRequired
 }
 // InitAppComponent.defaultProps = {};
 
 const mapStateToProps = state => {
-  const { coreData } = state
+  const { provider, translations } = state
 
   return {
-    coreData
+    provider,
+    translations
   }
 }
 const mapDispatchToProps = dispatch => {

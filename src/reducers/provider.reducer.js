@@ -7,12 +7,11 @@ import {
 
 const initialState = {
   ready: false,
-  loading: false,
-  data: {}
+  loading: false
 }
 
 
-function initData(state = initialState, action) {
+function initData(state, action) {
   switch(action.type) {
     case REQUEST_PROVIDER_DATA:
       return { ...state,
@@ -37,7 +36,7 @@ function initData(state = initialState, action) {
   }
 }
 
-export const InitApp = (state = {}, action) => {
+export const provider = (state = initialState, action) => {
   switch(action.type) {
     case REQUEST_PROVIDER_DATA:
     case RECEIVE_PROVIDER_DATA:
