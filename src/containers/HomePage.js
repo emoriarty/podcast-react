@@ -11,13 +11,11 @@ import CardHeader from '../components/cards/CardHeaderComponent';
 import CardBody from '../components/cards/CardBodyComponent';
 import CardActions from '../components/cards/CardActionsComponent';
 import CardMenu from '../components/cards/CardMenuComponent';
-import List from '../components/lists/ListComponent';
+import List from '../components/lists/ListContainer';
 import PodcastListItem from '../components/lists/PodcastListItemComponent';
 
 class HomePage extends Component {
   render() {
-    console.log('Home', this.props.params)
-    console.log('HOME', this.props.data)
     let className = 'mdl-layout__tab-panel homepage-component mdl-grid';
     if (!this.props.params.page) className += ' is-active';
 

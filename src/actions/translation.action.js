@@ -21,7 +21,7 @@ function requestData() {
 function receiveData(data) {
   return {
     type: RECEIVE_TRANSLATIONS,
-    ...data.app,
+    data,
     receivedAt: Date.now()
   }
 }
@@ -56,7 +56,7 @@ function fetchData(language) {
       .then(
         (result) => {
           dispatch(receiveData({
-            app: result[0],
+            app: result[0].results,
             commons: result[1],
             mediaTypes: result[2]
           }))

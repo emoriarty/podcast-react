@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { fetchTranslationsData } from '../actions/translation.action'
 import { fetchProviderData } from '../actions/provider.action'
+import Root from './RootAbstract'
 import LayoutTabs from '../components/layouts/TabsComponent'
 import CountriesDialog from '../components/dialogs/CountriesDialogComponent'
 import Notification from '../components/notifications/notification.component'
@@ -14,7 +15,7 @@ import * as NotificationActions from '../actions/notification.action'
 
 const yeomanImage = require('../images/yeoman.png');
 
-class App extends Component {
+class App extends Root {
   constructor(props) {
     super(props)
 
@@ -68,14 +69,17 @@ class App extends Component {
   componentDidMount() {
     this.props.dispatch(fetchTranslationsData())
     this.props.dispatch(fetchProviderData())
+    super.componentDidMount()
   }
 
   componentWillReceiveProps(nextProps) {
+    super.componentWillReceiveProps(nextProps)
     let data = nextProps.provider
-    //this.manageData(data)
-    if (data.fail || data.ready)
-      window.loadingScreen.finish();
+    let trans = nextProps.translations
+    let firstTime = true
 
+    if (data.ready && trans.ready && firstTime)
+      this.context.router.push('/first-time/country')
   }
 
   reload() {
@@ -92,12 +96,8 @@ class App extends Component {
     }
   }
 
-  isSplash() {
-    return !document.classList.contains('pg-loaded')
-  }
-
   closeSplash() {
-    if (this.isSplash())
+    if (super.isSplash())
       window.loadingScreen.finish()
   }
 
@@ -113,7 +113,7 @@ class App extends Component {
             <CountriesDialog countries={provider.countries || []} /> }
 
         { provider.ready &&
-            <LayoutTabs appName={this.state.appName} pages={this.state.pages}>
+            <LayoutTabs appName={this.props.translations.appName} pages={this.state.pages}>
               {this.props.children}
             </LayoutTabs> }
       </div>
@@ -127,6 +127,10 @@ App.displayName = 'ContainersApp';
 
 App.propTypes = {
   provider: PropTypes.object.isRequired
+}
+
+App.contextTypes = {
+  router: React.PropTypes.object
 }
 // App.defaultProps = {};
 

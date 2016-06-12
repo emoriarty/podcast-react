@@ -2,7 +2,7 @@
 
 import React, { PropTypes } from 'react';
 
-import Header from '../nav/HeaderComponent';
+import Header from '../nav/Header';
 import HeaderTabs from '../tabs/HeaderTabsComponent';
 import Pages from './TabPagesComponent';
 

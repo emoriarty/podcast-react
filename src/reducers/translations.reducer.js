@@ -24,7 +24,8 @@ function checkFetchActions(state, action) {
         ...state,
         ready: true,
         loading: false,
-        fail: false
+        fail: false,
+        ...action.data
       }
     case ERROR_TRANSLATIONS:
       return {

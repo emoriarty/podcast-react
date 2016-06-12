@@ -13,18 +13,20 @@ import 'dialog-polyfill'
 import React from 'react'
 import configureStore from './config/configureStore';
 import ReactDOM from 'react-dom'
-import { Router, Route, browserHistory, IndexRoute } from 'react-router'
+import { Router, Route, hashHistory, IndexRoute } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { pleaseWait } from 'please-wait'
 import { Provider } from 'react-redux'
 //App container
 import App from './containers/App'
+import Init from './containers/Init'
 //Pages
 import Home from './containers/HomePage'
+import Country from './containers/CountryPage'
 
 const logo    = require('./images/podcasts-app-256.png')
 const store   = configureStore()
-const history = syncHistoryWithStore(browserHistory, store)
+const history = syncHistoryWithStore(hashHistory, store)
 
 // Splash screen
 window.loadingScreen = pleaseWait({
@@ -42,6 +44,9 @@ ReactDOM.render(
         {/*<Route path="/:page" component={Foo} />} Component which renders the rest of the pages*/}
         {/*<Route path="" component={Foo} />
         <Route path="bar" component={Bar} />*/}
+      </Route>
+      <Route path="/first-time" component={Init}>
+        <Route path="/first-time/country" component={Country} />
       </Route>
     </Router>
   </Provider>, 

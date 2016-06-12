@@ -4,10 +4,10 @@ import React from 'react';
 
 require('styles/nav/Header.sass');
 
-let HeaderComponent = (props) => (
+let Header = (props) => (
   <header className="header-component mdl-layout__header">
 
-    <div className="mdl-layout--large-screen-only mdl-layout__header-row">
+    <div className="mdl-layout__header-row">
       <span className="mdl-layout-title">{props.title}</span>
     </div>
 
@@ -16,10 +16,10 @@ let HeaderComponent = (props) => (
   </header>
 );
 
-HeaderComponent.displayName = 'NavHeaderComponent';
+Header.displayName = 'NavHeader';
 
 // Uncomment properties you need
-// HeaderComponent.propTypes = {};
-// HeaderComponent.defaultProps = {};
+// Header.propTypes = {};
+// Header.defaultProps = {};
 
-export default HeaderComponent;
+export default Header;
