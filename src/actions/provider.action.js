@@ -8,7 +8,34 @@ import {
   RECEIVE_PROVIDER_DATA,
   ERROR_PROVIDER_DATA
 } from './types/provider.types'
-
+const MOCKUP_DATA = { 
+  id: 'home',
+  title: 'Home',
+  active: true,
+  data: {
+    topodcasts: [{
+      id: 1,
+      name: 'La órbita de Endor',
+      icon: '//cdn.webstatics.net/podcast/podcastimage_477376.gif'
+    }, {
+      id: 2,
+      name: 'Todopoderosos',
+      icon: '//pbs.twimg.com/profile_images/565955444963692544/wXLomgB-.jpeg'
+    }, {
+      id: 3,
+      name: 'La rosa de los vientos',
+      icon: '//epg.ondacero.es/static/images/sections/section_1002825.png'
+    }, {
+      id: 4,
+      name: 'Negra y criminal',
+      icon: '//cdn.webstatics.net/podcast/podcastimage_477376.gif'
+    }, {
+      id: 5,
+      name: 'Carne cruda',
+      icon: '//lareplica.es/wp-content/uploads/2015/07/Carne_cruda_logo.jpg'
+    }]
+  }
+}
 
 function requestInitialData() {
   return {
@@ -43,7 +70,8 @@ function fetchData(language = navigator.language) {
         (result) => {
           dispatch(receiveInitialData({
             commons: result[0], // common values
-            countries: result[1] // countries metadata
+            countries: result[1], // countries metadata
+            data: MOCKUP_DATA
           }))
         },
         (error) => {

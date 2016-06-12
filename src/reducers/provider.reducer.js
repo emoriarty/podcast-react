@@ -24,8 +24,7 @@ function initData(state, action) {
         ready: true,
         loading: false,
         fail: false,
-        commons: action.data.commons,
-        countries: action.data.countries
+        ...action.data
       }
     case ERROR_PROVIDER_DATA:
       return { ...state,

@@ -5,18 +5,16 @@ require('styles/containers/InitApp.sass')
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { fetchTranslationsData } from '../../actions/translation.action'
-import { fetchProviderData } from '../../actions/provider.action'
-import LayoutTabs from '../layouts/TabsComponent'
-import CountriesDialog from '../dialogs/CountriesDialogComponent'
-import Page from '../pages/TabPageComponent'
-import HomePage from '../pages/HomePageComponent'
-import Notification from '../notifications/notification.component'
-import * as NotificationActions from '../../actions/notification.action'
+import { fetchTranslationsData } from '../actions/translation.action'
+import { fetchProviderData } from '../actions/provider.action'
+import LayoutTabs from '../components/layouts/TabsComponent'
+import CountriesDialog from '../components/dialogs/CountriesDialogComponent'
+import Notification from '../components/notifications/notification.component'
+import * as NotificationActions from '../actions/notification.action'
 
-const yeomanImage = require('../../images/yeoman.png');
+const yeomanImage = require('../images/yeoman.png');
 
-class InitAppComponent extends Component {
+class App extends Component {
   constructor(props) {
     super(props)
 
@@ -116,33 +114,21 @@ class InitAppComponent extends Component {
 
         { provider.ready &&
             <LayoutTabs appName={this.state.appName} pages={this.state.pages}>
-              {this.state.pages.map((page) => {
-                switch(page.id) {
-                  case 'home':
-                    return <HomePage key={page.id} data={page} />;
-                  default:
-                    return (
-                      <Page key={page.id} data={page}>
-                        <img src={yeomanImage} alt="Yeoman Generator" />
-                      </Page>
-                    );
-                }
-              })}
+              {this.props.children}
             </LayoutTabs> }
-
       </div>
     );
   }
 }
 
-InitAppComponent.displayName = 'ContainersInitAppComponent';
+App.displayName = 'ContainersApp';
 
 // Uncomment properties you need
 
-InitAppComponent.propTypes = {
+App.propTypes = {
   provider: PropTypes.object.isRequired
 }
-// InitAppComponent.defaultProps = {};
+// App.defaultProps = {};
 
 const mapStateToProps = state => {
   const { provider, translations } = state
@@ -160,4 +146,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(InitAppComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(App)
