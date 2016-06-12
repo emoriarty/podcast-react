@@ -1,5 +1,5 @@
 'use strict';
-//require('styles/pages/CountryPage.sass');
+require('styles/containers/CountryPage.sass');
 
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux'
