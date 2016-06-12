@@ -1,6 +1,6 @@
 'use strict'
 
-require('styles/containers/CountryPage.sass')
+require('styles/lists/RadioItem.sass')
 
 import React, { PropTypes } from 'react'
 
@@ -9,11 +9,10 @@ let RadioItem = (props) => {
   return (
     <li className="mdl-list__item">
       <span className="mdl-list__item-primary-content">
-        <i className="material-icons  mdl-list__item-avatar">person</i>
-        {props.name}
+        {props.children}
       </span>
       <span className="mdl-list__item-secondary-action">
-        <label className="mdl-radio mdl-js-radio mdl-js-ripple-effect" for={indexName}>
+        <label className="mdl-radio mdl-js-radio mdl-js-ripple-effect app-radio" for={indexName}>
           <input type="radio" id={indexName} className="mdl-radio__button" name="options" value={props.value} />
         </label>
       </span>
@@ -29,7 +28,6 @@ RadioItem.propTypes = {
       React.PropTypes.string,
       React.PropTypes.number
     ]),
-  name: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number

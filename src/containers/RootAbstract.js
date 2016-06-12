@@ -38,6 +38,8 @@ class RootAbstract extends Component {
       && this.isSplash()) {
       window.loadingScreen.finish();
     }
+
+    componentHandler.upgradeAllRegistered();
   }
 
   isSplash() {
