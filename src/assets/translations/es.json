@@ -1,7 +1,23 @@
 {
   "appName": "Podcaster",
+  "regions": {
+    "Africa, Middle East, and India": "África, Oriente medio y la India",
+    "Asia Pacific": "Asia y el Pacíficoo",
+    "Europe": "Europa",
+    "Latin America and the Caribbean": "Latinoamérica y el caribe",
+    "The United States and Canada": "EEUU y Canadá"
+  },
   "settings": {
     "chooseCountry": "Seleccione el país donde viva",
     "chooseLang": "Seleccione su idioma"
+  },
+  "notifications": {
+    "error": "error"
+  },
+  "errors": {
+    "terminalError": {
+      "title": "Error terminal",
+      "text": "Esto es algo embarazoso pero debemos informarte que el programa ha sido interrumpido por un error. Pulse en el botón para recargar la página, si este mensaje vuelve a suceder no dude and hacernoslo saber. Disculpe las molestias." 
+    }
   }
 }

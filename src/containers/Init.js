@@ -47,7 +47,6 @@ Init.propTypes = {
 
 const mapStateToProps = state => {
   const { provider, translations } = state
-  console.log('INIT', state)
 
   return {
     provider,

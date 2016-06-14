@@ -1,7 +1,7 @@
 import * as Notifications from './notification.action'
 import {
   fetchMediaTypes,
-  fetchCountries
+  fetchRegions
 } from '../services/itunes.service'
 import {
   REQUEST_PROVIDER_DATA,
@@ -64,13 +64,13 @@ function fetchData(language = navigator.language) {
     try {
       Promise.all([
         fetchMediaTypes(),
-        fetchCountries(),
+        fetchRegions(),
       ])
       .then(
         (result) => {
           dispatch(receiveInitialData({
             commons: result[0], // common values
-            countries: result[1], // countries metadata
+            regions: result[1], // regions and countries metadata
             data: MOCKUP_DATA
           }))
         },

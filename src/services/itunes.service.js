@@ -9,28 +9,36 @@ export function fetchMediaTypes() {
     })
 }
 
-export function fetchCountries() {
+export function fetchRegions() {
   return yuiFetch('/data/countries.json')
     .then(r => {
       let countriesWithPodcasts = _.inject(r.results, function(memo, country) {
         if (country.stores.podcast) {
           // If the country icon link has no host, then add it
           if (!country.flag_icon.match(/^(http|https):\/\//)) {
-            memo.push({ ...country, flag_icon: 'https://rss.itunes.apple.com' + country.flag_icon });
+            memo.push({ ...country, flag_icon: 'https://rss.itunes.apple.com' + country.flag_icon })
           }
           else {
-            memo.push(country);
+            memo.push(country)
           }
         }
-        return memo;
-      }, []);
+        return memo
+      }, [])
 
       // grouping by region
-      console.log(_.groupBy(countriesWithPodcasts, (country) => country.region))
-
+      let countriesGroupByRegion = _.groupBy(countriesWithPodcasts, (country) => country.region)
+      let regions = []
+      Object.keys(countriesGroupByRegion).forEach(function(key, index) {
+        regions.push({
+          translation_key: key,
+          countries: countriesGroupByRegion[key]
+        })
+      })
       //
+      console.log('regions', regions)
 
-      return countriesWithPodcasts
+      //return countriesWithPodcasts
+      return regions
     })
 }
 

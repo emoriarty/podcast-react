@@ -55,7 +55,6 @@ HomePage.propTypes = {
 
 const mapStateToProps = state => {
   const { provider } = state
-  console.log('state', state)
   return {
     data: provider.data
   }

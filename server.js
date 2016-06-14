@@ -12,11 +12,13 @@ new WebpackDevServer(webpack(config), config.devServer)
   if (err) {
     console.log(err);
   }
-  let ip = os.networkInterfaces().en0[1].address;
-  //console.log(os.networkInterfaces());
+
+  if (os.networkInterfaces().en0) {
+    let ip = os.networkInterfaces().en0[1].address;
+    console.log('Listening at ' + ip + ':' + config.port);
+  }
 
   console.log('Listening at localhost:' + config.port);
-  console.log('Listening at ' + ip + ':' + config.port);
   console.log('Opening your system browser...');
   open('http://localhost:' + config.port + '/webpack-dev-server/');
 });
