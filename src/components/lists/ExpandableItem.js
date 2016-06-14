@@ -3,13 +3,19 @@
 require('styles/lists/ExpandableItem.sass')
 
 import React, { PropTypes } from 'react'
+import Velocity from 'velocity-animate' 
 
 let ExpandableItem = (props) => {
   const indexName = "list-option-" + props.index
   const expandableClassName = 'expandable-item__collapsable'
   
   let toggle = (ev) => {
-    ev.currentTarget.nextSibling.classList.toggle('expanded')
+    let siblingClasses = ev.currentTarget.nextSibling.classList
+    siblingClasses.toggle('expanded')
+    Velocity(ev.currentTarget.nextSibling, siblingClasses.contains('expanded') ? 'slideDown' : 'slideUp')
+    Velocity(ev.currentTarget.querySelector('.material-icons'), { 
+      rotateZ: siblingClasses.contains('expanded') ? '180deg': '0' 
+    })
   }
 
   return (
@@ -19,7 +25,7 @@ let ExpandableItem = (props) => {
           {props.text}
         </span>
         <span className="mdl-list__item-secondary-action">
-          <i className="material-icons mdl-list__item-avatar">person</i>
+          <i className="material-icons">expand_more</i>
         </span>
       </div>
       <div className={expandableClassName}>

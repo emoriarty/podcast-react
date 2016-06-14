@@ -85,6 +85,7 @@
     "redux-thunk": "^2.1.0",
     "spinkit": "^1.2.5",
     "underscore": "^1.8.3",
+    "velocity-animate": "^1.2.3",
     "velocity-react": "^1.1.5",
     "yui": "^3.18.1"
   }
