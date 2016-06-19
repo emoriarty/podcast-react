@@ -2,21 +2,35 @@
 
 //require('styles/containers/Init.sass')
 
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Root from './RootAbstract'
+import Root from './root.abstract'
 import Notification from '../components/notifications/notification.component'
 import * as NotificationActions from '../actions/notification.action'
-import BasicLayout from '../components/layouts/Basic'
+import BasicLayout from '../components/layouts/basic.layout'
 
 class Init extends Root {
+  constructor(props) {
+    super(props)
+  }
+
   /*componentDidMount() {
     let els = document.getElementsByClassName('mdl-js-layout');
     Array.prototype.forEach.call(els, (el) => (
       window.componentHandler.upgradeElement(el, 'MaterialLayout')
     ));
   }*/
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', nextProps, this.context)
+    
+
+    if (!$.isEmptyObject(nextProps.country)) {
+      this.context.router.push('/')
+    }
+    super.componentWillReceiveProps(nextProps)
+  }
+
 
   render() {
     const { provider, translations } = this.props
@@ -26,7 +40,7 @@ class Init extends Root {
 
         <Notification />
 
-        { provider.ready && 
+        { provider.ready && translations.ready &&
           <BasicLayout appName={translations.app.appName}>
             { this.props.children }
           </BasicLayout> }
@@ -43,14 +57,19 @@ Init.displayName = 'ContainersInit';
 Init.propTypes = {
   provider: PropTypes.object.isRequired
 }
+
+Init.contextTypes = {
+  router: PropTypes.object
+}
 // Init.defaultProps = {};
 
 const mapStateToProps = state => {
-  const { provider, translations } = state
+  const { provider, translations, country } = state
 
   return {
     provider,
-    translations
+    translations,
+    country
   }
 }
 const mapDispatchToProps = dispatch => {

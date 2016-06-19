@@ -2,8 +2,6 @@
 
 import { Component } from 'react'
 
-const yeomanImage = require('../images/yeoman.png');
-
 class RootAbstract extends Component {
 
   componentDidMount() {
@@ -16,16 +14,16 @@ class RootAbstract extends Component {
         'querySelector' in document &&
         'addEventListener' in window && Array.prototype.forEach) {
       document.documentElement.classList.add('mdl-js');
-      componentHandler.upgradeAllRegistered();
+      window.componentHandler.upgradeAllRegistered();
     } else {
       /**
        * Dummy function to avoid JS errors.
        */
-      componentHandler.upgradeElement = function() {};
+      window.componentHandler.upgradeElement = function() {};
       /**
        * Dummy function to avoid JS errors.
        */
-      componentHandler.register = function() {};
+      window.componentHandler.register = function() {};
     }
   }
 
@@ -33,13 +31,13 @@ class RootAbstract extends Component {
     let provider = nextProps.provider
     let trans = nextProps.translations
 
-    if (provider.fail || provider.ready 
+    if (provider.fail || provider.ready
       && trans.fail || trans.ready
       && this.isSplash()) {
-      window.loadingScreen.finish();
+      window.loadingScreen.finish()
     }
 
-    componentHandler.upgradeAllRegistered();
+    window.componentHandler.upgradeAllRegistered();
   }
 
   isSplash() {

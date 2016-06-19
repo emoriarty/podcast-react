@@ -1,5 +1,4 @@
 import {
-  ALERT__HIDE,
   ALERT__SHOW
 } from '../actions/types/notification.types'
 

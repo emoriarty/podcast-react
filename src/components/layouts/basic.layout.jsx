@@ -4,7 +4,6 @@ import React,{ PropTypes } from 'react'
 import Header from '../nav/Header'
 
 let Basic = (props) => {
-  console.log('BASIC', props)
   return (
     <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 

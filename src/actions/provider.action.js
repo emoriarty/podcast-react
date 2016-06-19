@@ -8,7 +8,7 @@ import {
   RECEIVE_PROVIDER_DATA,
   ERROR_PROVIDER_DATA
 } from './types/provider.types'
-const MOCKUP_DATA = { 
+const MOCKUP_DATA = {
   id: 'home',
   title: 'Home',
   active: true,
@@ -57,14 +57,14 @@ function errorInitialData() {
   }
 }
 
-function fetchData(language = navigator.language) {
+function fetchData() {
   return dispatch => {
     dispatch(requestInitialData())
 
     try {
       Promise.all([
         fetchMediaTypes(),
-        fetchRegions(),
+        fetchRegions()
       ])
       .then(
         (result) => {
@@ -78,8 +78,7 @@ function fetchData(language = navigator.language) {
           dispatch(errorInitialData(error))
           dispatch(Notifications.showAlert({
             title: 'Terminal error',
-            text: 'This is embarrasing but the app has crashed. Click the button to reload, in case this message is shown again, please let us know.',
-            action: function() {console.log('alert')}
+            text: 'This is embarrasing but the app has crashed. Click the button to reload, in case this message is shown again, please let us know.'
           }))
         }
       )

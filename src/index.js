@@ -18,15 +18,26 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { pleaseWait } from 'please-wait'
 import { Provider } from 'react-redux'
 //App container
-import App from './containers/App'
-import Init from './containers/Init'
+import App from './containers/app'
+import FirsTime from './containers/first-time'
 //Pages
-import Home from './containers/HomePage'
-import Country from './containers/CountryPage'
+import Home from './pages/home.page'
+import Country from './pages/countries.page'
 
 const logo    = require('./images/podcasts-app-256.png')
 const store   = configureStore()
 const history = syncHistoryWithStore(hashHistory, store)
+
+// Observe store
+function toObservable(store) {
+    return {
+      subscribe({ onNext }) {
+        let dispose = store.subscribe(() => onNext(store.getState()));
+        onNext(store.getState());
+        return { dispose };
+      }
+    }
+}
 
 // Splash screen
 window.loadingScreen = pleaseWait({
@@ -34,6 +45,12 @@ window.loadingScreen = pleaseWait({
   backgroundColor: '#1976D2',
   loadingHtml: '<div class="sk-rotating-plane">'
 })
+
+/*window.google.load('feeds', '1')
+window.google.setOnLoadCallback(function() {
+  console.log('Feed loaded')
+  window.feedAPI = true
+})*/
 
 // Render the main component into the dom
 ReactDOM.render(
@@ -45,10 +62,10 @@ ReactDOM.render(
         {/*<Route path="" component={Foo} />
         <Route path="bar" component={Bar} />*/}
       </Route>
-      <Route path="/first-time" component={Init}>
+      <Route path="/first-time" component={FirsTime}>
         <Route path="/first-time/country" component={Country} />
       </Route>
     </Router>
-  </Provider>, 
+  </Provider>,
   document.getElementById('app')
 )

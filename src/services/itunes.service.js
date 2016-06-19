@@ -1,10 +1,10 @@
 import yuiFetch from '../utils/yui-fetch.js'
 import _ from 'underscore';
+import { fetchJSONP } from './fetcher.service'
 
 export function fetchMediaTypes() {
   return yuiFetch('/data/media-types.json')
     .then((r) => {
-      console.log(r)
       return _.findWhere(r.results, {store: 'podcast'})
     })
 }
@@ -30,14 +30,12 @@ export function fetchRegions() {
       let regions = []
       Object.keys(countriesGroupByRegion).forEach(function(key, index) {
         regions.push({
+          id: index,
           translation_key: key,
           countries: countriesGroupByRegion[key]
         })
       })
-      //
-      console.log('regions', regions)
 
-      //return countriesWithPodcasts
       return regions
     })
 }
@@ -54,4 +52,17 @@ export function fetchCommonTranslations(language) {
     .then(r => {
       return r.results
     })
+}
+
+export function fetchPodcasts({limit, genre, explicit}) {
+  return yuiFetch('/data/lang/' + language + '/media-types.json')
+    .then(r => {
+      return r.results
+    })
+}
+
+export function fetchTopPodcasts(feedUrl) {
+  return new Promise((resolve, reject) => {
+    fetchJSONP(feedUrl, resolve, reject)
+  })
 }

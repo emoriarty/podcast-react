@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import BaseDialog from './basedialog.component.jsx';
 import 'style!../../styles/modals/Modal.sass';
 
@@ -8,7 +8,7 @@ class AlertComponent extends BaseDialog {
     this.handleAccept = this.handleAccept.bind(this)
   }
 
-  handleAccept(ev) {
+  handleAccept() {
     this.el.close()
   }
 
@@ -34,12 +34,12 @@ class AlertComponent extends BaseDialog {
     );
   }
 
-};
+}
 
 AlertComponent.propTypes = {
   title: PropTypes.string,
   text: PropTypes.string,
   action: PropTypes.func
-};
+}
 
 export default AlertComponent;

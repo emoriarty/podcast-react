@@ -1,6 +1,6 @@
 'use strict'
 
-import { Component, PropTypes } from 'react'
+import { Component } from 'react'
 
 require('styles/dialogs/Dialog.sass')
 
@@ -17,11 +17,10 @@ class DialogComponent extends Component {
 
   componentDidMount() {
     if (!this.el.showModal) {
-      console.log('mounting dialog')
-      dialogPolyfill.registerDialog(this.el.dialog)
+      window.dialogPolyfill.registerDialog(this.el.dialog)
     }
   }
-};
+}
 
 // Uncomment properties you need
 //DialogComponent.propTypes = {};

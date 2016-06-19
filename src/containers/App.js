@@ -2,18 +2,17 @@
 
 require('styles/containers/InitApp.sass')
 
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { fetchTranslationsData } from '../actions/translation.action'
 import { fetchProviderData } from '../actions/provider.action'
-import Root from './RootAbstract'
+import { getCountry } from '../actions/storage.action'
+import Root from './root.abstract'
 import LayoutTabs from '../components/layouts/TabsComponent'
-import CountriesDialog from '../components/dialogs/CountriesDialogComponent'
 import Notification from '../components/notifications/notification.component'
 import * as NotificationActions from '../actions/notification.action'
-
-const yeomanImage = require('../images/yeoman.png');
+import * as DB from '../services/storage.service'
 
 class App extends Root {
   constructor(props) {
@@ -74,12 +73,16 @@ class App extends Root {
 
   componentWillReceiveProps(nextProps) {
     super.componentWillReceiveProps(nextProps)
-    let data = nextProps.provider
-    let trans = nextProps.translations
-    let firstTime = true
+    const {dispatch, provider, translations} = nextProps
 
-    if (data.ready && trans.ready && firstTime)
+    // Check if there is a country stored 
+    if (!DB.fetch(DB.COUNTRY_KEY)) {
       this.context.router.push('/first-time/country')
+    } else {
+      dispatch(getCountry())
+      //TODO fetch rss for country 
+      
+    }
   }
 
   reload() {
@@ -102,15 +105,12 @@ class App extends Root {
   }
 
   render() {
-    const { provider, message } = this.props
+    const { provider } = this.props
 
     return (
       <div className="index">
 
         <Notification />
-
-        { this.state.isShowingCountries &&
-            <CountriesDialog countries={provider.countries || []} /> }
 
         { provider.ready &&
             <LayoutTabs appName={this.props.translations.appName} pages={this.state.pages}>

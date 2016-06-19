@@ -3,18 +3,17 @@
 require('styles/lists/ExpandableItem.sass')
 
 import React, { PropTypes } from 'react'
-import Velocity from 'velocity-animate' 
+import Velocity from 'velocity-animate'
 
 let ExpandableItem = (props) => {
-  const indexName = "list-option-" + props.index
   const expandableClassName = 'expandable-item__collapsable'
   
   let toggle = (ev) => {
     let siblingClasses = ev.currentTarget.nextSibling.classList
     siblingClasses.toggle('expanded')
     Velocity(ev.currentTarget.nextSibling, siblingClasses.contains('expanded') ? 'slideDown' : 'slideUp')
-    Velocity(ev.currentTarget.querySelector('.material-icons'), { 
-      rotateZ: siblingClasses.contains('expanded') ? '180deg': '0' 
+    Velocity(ev.currentTarget.querySelector('.material-icons'), {
+      rotateZ: siblingClasses.contains('expanded') ? '180deg': '0'
     })
   }
 

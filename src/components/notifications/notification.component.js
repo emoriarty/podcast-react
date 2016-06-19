@@ -20,7 +20,7 @@ class notificationContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  notification: state.notification,
+  notification: state.notification
 });
 const mapDispatchToProps = dispatch => {
   return {

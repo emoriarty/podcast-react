@@ -65,14 +65,13 @@ function fetchData(language) {
           dispatch(errorFetchingData(error))
           dispatch(Notifications.showAlert({
             title: 'Terminal error',
-            text: 'Could not be retrieved translations texts.',
-            action: function() {console.log('alert')}
+            text: 'Could not be retrieved translations texts.'
           }))
         }
       )
     }
     catch (e) {
-      dispatch(errorInitialData(e));
+      dispatch(errorFetchingData(e));
     }
   }
 }
