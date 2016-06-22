@@ -1,6 +1,6 @@
 import yuiFetch from '../utils/yui-fetch.js'
 import _ from 'underscore';
-import { fetchJSONP } from './fetcher.service'
+import { fetchJSONP } from '../utils/jsonp-fetch'
 
 export function fetchMediaTypes() {
   return yuiFetch('/data/media-types.json')

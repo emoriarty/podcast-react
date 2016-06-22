@@ -12,7 +12,7 @@ import CardBody from './elements/card-body'
 import CardActions from './elements/card-actions'
 import CardMenu from './elements/card-menu'
 import List from '../lists/list'
-import PodcastListItem from '../lists/podcast.item'
+import SwitchItem from '../lists/switch.item'
 import Spinner from '../spinners/spinner'
 
 /**
@@ -51,8 +51,12 @@ class TopPodcasts extends Component {
       content = <div>
         <CardBody>
           <List>
-            { topPodcasts.map(item =>
-              <PodcastListItem key={item.id.label} name={item.title.label} icon={item['im:image'][0].label} />) }
+            { topPodcasts.map(item => {
+              return <SwitchItem key={item.id.label}>
+                <img className="card-icon" src={item['im:image'][0].label} />
+                <span>{item.title.label}</span>
+              </SwitchItem>
+            })}
           </List>
         </CardBody>
         <CardActions>

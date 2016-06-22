@@ -2,6 +2,7 @@
 
 //require('styles/containers/Init.sass')
 
+import $ from 'jquery'
 import React, { PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -21,16 +22,13 @@ class Init extends Root {
       window.componentHandler.upgradeElement(el, 'MaterialLayout')
     ));
   }*/
+  
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', nextProps, this.context)
-    
-
     if (!$.isEmptyObject(nextProps.country)) {
       this.context.router.push('/')
     }
     super.componentWillReceiveProps(nextProps)
   }
-
 
   render() {
     const { provider, translations } = this.props

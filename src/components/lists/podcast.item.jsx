@@ -10,7 +10,9 @@ let PodcastListItemComponent = (props) => (
       <img className="card-icon" src={props.icon} />
       <span>{props.name}</span>
     </span>
-    <a className="mdl-list__item-secondary-action" href="#"><i className="material-icons">star</i></a>
+    <a className="mdl-list__item-secondary-action mdl-js-ripple-effect" href="#">
+      <i className="material-icons">add_box</i>
+    </a>
   </li>
 );
 

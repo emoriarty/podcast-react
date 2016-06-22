@@ -71,6 +71,7 @@
     "dialog-polyfill": "^0.4.3",
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
+    "jquery": "^3.0.0",
     "lockr": "^0.8.4",
     "material-design-icons": "^2.2.3",
     "material-design-lite": "^1.1.3",
