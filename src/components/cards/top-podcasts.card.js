@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import _ from 'underscore'
 
 import { fetchPodcast } from '../../actions/podcasts.action'
+import { subscribePodcast, unsubscribePodcast } from '../../actions/subscriptions.action'
 
 import Card from './elements/card-wrapper'
 import CardHeader from './elements/card-header'
@@ -22,6 +23,10 @@ import Spinner from '../spinners/spinner'
  *      ref={ (ref) => this.el = ref }
  */
 class TopPodcasts extends Component {
+  constructor() {
+    super()
+    this.handleSubscription = this.handleSubscription.bind(this)
+  }
   componentDidMount() {
     const { provider, country } = this.props
     
@@ -43,6 +48,19 @@ class TopPodcasts extends Component {
     }
   }
 
+  handleSubscription(ev) {
+    //TODO dispatch subscriptions
+    const { topPodcasts, dispatch } = this.props
+    let podcast = _.find(topPodcasts, podcast => (podcast.id.attributes['im:id'] === ev.target.value))
+    
+    if (ev.target.checked) {
+      dispatch(subscribePodcast(podcast))
+    }
+    else {
+      dispatch(unsubscribePodcast(podcast))
+    }
+  }
+
   render() {
     const {topPodcasts} = this.props
     let content = <CardBody><div className="spinner-wrapper"><Spinner /></div></CardBody>
@@ -52,7 +70,10 @@ class TopPodcasts extends Component {
         <CardBody>
           <List>
             { topPodcasts.map(item => {
-              return <SwitchItem key={item.id.label}>
+              return <SwitchItem 
+                key={item.id.label}
+                value={item.id.attributes['im:id']}
+                onSelect={this.handleSubscription}>
                 <img className="card-icon" src={item['im:image'][0].label} />
                 <span>{item.title.label}</span>
               </SwitchItem>
@@ -88,11 +109,12 @@ TopPodcasts.displayName = 'CardsTopPodcasts'
 //TopPodcasts.defaultProps = {};
 
 const mapStateToProps = state => {
-  const { provider, country, topPodcasts } = state
+  const { provider, country, topPodcasts, subscriptions } = state
   return {
     provider, 
     country,
-    topPodcasts
+    topPodcasts,
+    subscriptions
   }
 }
 

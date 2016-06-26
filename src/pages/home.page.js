@@ -9,6 +9,11 @@ import * as NotificationActions from '../actions/notification.action'
 import TopPodcastsCard from '../components/cards/top-podcasts.card'
 
 class HomePage extends Component {
+  componentWillReceiveProps(nextProps) {
+    // TODO Check when state has changed and then save into the DB
+    console.log(nextProps)
+  }
+
   render() {
     let className = 'mdl-layout__tab-panel homepage-component mdl-grid';
     if (!this.props.params.page) className += ' is-active';
@@ -30,9 +35,10 @@ HomePage.propTypes = {
 // HomePage.defaultProps = {};
 
 const mapStateToProps = state => {
-  const { provider } = state
+  const { provider, subscriptions } = state
   return {
-    data: provider.data
+    data: provider.data,
+    subscriptions
   }
 }
 const mapDispatchToProps = dispatch => {

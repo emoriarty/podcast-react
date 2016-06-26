@@ -6,6 +6,7 @@ import { translations } from './translations.reducer'
 import { notification } from './notification.reducer'
 import { country } from './storage.reducer'
 import { topPodcasts } from './podcasts.reducer'
+import { subscriptions } from './subscriptions.reducer'
 
 const AppReducers = combineReducers({
   provider,
@@ -13,6 +14,7 @@ const AppReducers = combineReducers({
   notification,
   country,
   topPodcasts, 
+  subscriptions,
   routing: routerReducer
 })
 

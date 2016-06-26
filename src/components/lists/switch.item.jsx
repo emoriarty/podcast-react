@@ -5,7 +5,8 @@ require('styles/lists/SwitchItem.sass')
 import React, { PropTypes } from 'react'
 
 let SwitchItem = (props) => {
-  const indexName = 'list-option-' + props.index
+  const indexName = 'list-option-' + props.value
+
   return (
     <li className="mdl-list__item switch-item">
       <span className="mdl-list__item-primary-content primary-content">
@@ -30,11 +31,10 @@ SwitchItem.displayName = 'ListsSwitchItem'
 
 // Uncomment properties you need
 SwitchItem.propTypes = {
-  index: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   onSelect: PropTypes.func
 }
 // SwitchItem.defaultProps = {}
