@@ -26,6 +26,7 @@ class TopPodcasts extends Component {
   constructor() {
     super()
     this.handleSubscription = this.handleSubscription.bind(this)
+    this.isSubscribed = this.isSubscribed.bind(this)
   }
   componentDidMount() {
     const { provider, country } = this.props
@@ -48,8 +49,13 @@ class TopPodcasts extends Component {
     }
   }
 
+  isSubscribed(podcast) {
+    return this.props.subscriptions.find(subscription => (
+      subscription.id.attributes['im:id'] === podcast.id.attributes['im:id']
+    ))
+  }
+
   handleSubscription(ev) {
-    //TODO dispatch subscriptions
     const { topPodcasts, dispatch } = this.props
     let podcast = _.find(topPodcasts, podcast => (podcast.id.attributes['im:id'] === ev.target.value))
     
@@ -69,13 +75,14 @@ class TopPodcasts extends Component {
       content = <div>
         <CardBody>
           <List>
-            { topPodcasts.map(item => {
+            { topPodcasts.map(podcast => {
               return <SwitchItem 
-                key={item.id.label}
-                value={item.id.attributes['im:id']}
-                onSelect={this.handleSubscription}>
-                <img className="card-icon" src={item['im:image'][0].label} />
-                <span>{item.title.label}</span>
+                key={podcast.id.label}
+                value={podcast.id.attributes['im:id']}
+                onSelect={this.handleSubscription}
+                checked={this.isSubscribed(podcast)}>
+                <img className="card-icon" src={podcast['im:image'][0].label} />
+                <span>{podcast.title.label}</span>
               </SwitchItem>
             })}
           </List>

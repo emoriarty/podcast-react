@@ -11,7 +11,6 @@ import TopPodcastsCard from '../components/cards/top-podcasts.card'
 class HomePage extends Component {
   componentWillReceiveProps(nextProps) {
     // TODO Check when state has changed and then save into the DB
-    console.log(nextProps)
   }
 
   render() {
@@ -35,10 +34,9 @@ HomePage.propTypes = {
 // HomePage.defaultProps = {};
 
 const mapStateToProps = state => {
-  const { provider, subscriptions } = state
+  const { provider } = state
   return {
-    data: provider.data,
-    subscriptions
+    data: provider.data
   }
 }
 const mapDispatchToProps = dispatch => {

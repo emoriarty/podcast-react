@@ -17,6 +17,9 @@ import { Router, Route, hashHistory, IndexRoute } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { pleaseWait } from 'please-wait'
 import { Provider } from 'react-redux'
+// Services
+import SubscriberStore from './utils/subscriber-store'
+import * as DB from './services/storage.service'
 //App container
 import App from './containers/app'
 import FirsTime from './containers/first-time'
@@ -24,20 +27,17 @@ import FirsTime from './containers/first-time'
 import Home from './pages/home.page'
 import Country from './pages/countries.page'
 
-const logo    = require('./images/podcasts-app-256.png')
-const store   = configureStore()
-const history = syncHistoryWithStore(hashHistory, store)
+const logo       = require('./images/podcasts-app-256.png')
+const store      = configureStore()
+const history    = syncHistoryWithStore(hashHistory, store)
+const subscriber = new SubscriberStore(store)
 
 // Observe store
-function toObservable(store) {
-    return {
-      subscribe({ onNext }) {
-        let dispose = store.subscribe(() => onNext(store.getState()));
-        onNext(store.getState());
-        return { dispose };
-      }
-    }
-}
+subscriber.subscribe({
+  onNext: ({subscriptions}) => {
+    DB.store(DB.SUBSCRIPTIONS_KEY, subscriptions)
+  }
+})
 
 // Splash screen
 window.loadingScreen = pleaseWait({

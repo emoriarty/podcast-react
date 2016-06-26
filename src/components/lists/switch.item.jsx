@@ -5,6 +5,7 @@ require('styles/lists/SwitchItem.sass')
 import React, { PropTypes } from 'react'
 
 let SwitchItem = (props) => {
+  console.log('props.checked', props.checked)
   const indexName = 'list-option-' + props.value
 
   return (
@@ -20,6 +21,7 @@ let SwitchItem = (props) => {
             className="mdl-switch__input"
             name="options"
             value={props.value}
+            checked={props.checked}
             onChange={props.onSelect} />
         </label>
       </span>
