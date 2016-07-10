@@ -1,0 +1,9 @@
+{
+  "pages": [{ 
+    "id": "home" 
+  }, {
+    "id": "subscriptions"
+  }, {
+    "id": "trends"
+  }]
+}

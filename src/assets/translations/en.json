@@ -1,0 +1,34 @@
+{
+  "appName": "Podcaster",
+  "regions": {
+    "Africa, Middle East, and India": "Africa, Middle East, and India",
+    "Asia Pacific": "Asia and Pacific",
+    "Europe": "Europe",
+    "Latin America and the Caribbean": "Latin America and the Caribbean",
+    "The United States and Canada": "The United States and Canada"
+  },
+  "settings": {
+    "chooseCountry": "Choose your country",
+    "chooseLang": "Choose your language"
+  },
+  "notifications": {
+    "error": "error"
+  },
+  "errors": {
+    "terminalError": {
+      "title": "Terminal error",
+      "text": "This is embarrasing but the app has crashed. Click the button to reload, in case this message is shown again, please let us know."
+    }
+  },
+  "pages": {
+    "home": {
+      "title": "Home"
+    },
+    "subscriptions": {
+      "title": "Subscriptions"
+    },
+    "trends": {
+      "title": "Trends"
+    }
+  }
+}
