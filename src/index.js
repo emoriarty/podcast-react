@@ -25,6 +25,7 @@ import App from './containers/app'
 import FirsTime from './containers/first-time'
 //Pages
 import Home from './pages/home.page'
+import Subscriptions from './pages/subscriptions.page'
 import Country from './pages/countries.page'
 
 const logo       = require('./images/podcasts-app-256.png')
@@ -58,6 +59,7 @@ ReactDOM.render(
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
+        <Route path="subscriptions" component={Subscriptions} />
         {/*<Route path="/:page" component={Foo} />} Component which renders the rest of the pages*/}
         {/*<Route path="" component={Foo} />
         <Route path="bar" component={Bar} />*/}

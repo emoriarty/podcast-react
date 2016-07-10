@@ -87,16 +87,6 @@ class TopPodcasts extends Component {
             })}
           </List>
         </CardBody>
-        <CardActions>
-          <a className="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-            Get Started
-          </a>
-        </CardActions>
-        <CardMenu>
-          <button className="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-            <i className="material-icons">share</i>
-          </button>
-        </CardMenu>
       </div>
     }
 
