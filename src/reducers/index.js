@@ -1,21 +1,12 @@
-import { combineReducers } from 'redux'
-import { routerReducer } from 'react-router-redux'
-
-import { provider } from './provider.reducer'
-import { translations } from './translations.reducer'
-import { notification } from './notification.reducer'
-import { country } from './storage.reducer'
-import { topPodcasts } from './podcasts.reducer'
-import { subscriptions } from './subscriptions.reducer'
-
-const AppReducers = combineReducers({
-  provider,
-  translations,
-  notification,
-  country,
-  topPodcasts, 
-  subscriptions,
-  routing: routerReducer
-})
-
-export default AppReducers
+/* Combine all available reducers to a single root reducer.
+ *
+ * CAUTION: When using the generators, this file is modified in some places.
+ *          This is done via AST traversal - Some of your formatting may be lost
+ *          in the process - no functionality should be broken though.
+ *          This modifications only run once when the generator is invoked - if
+ *          you edit them, they are not updated again.
+ */
+import { combineReducers } from 'redux';
+/* Populated by react-webpack-redux:reducer */
+const reducers = { notifications: require('../reducers/notifications.js') };
+module.exports = combineReducers(reducers);

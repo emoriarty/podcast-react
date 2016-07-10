@@ -1,37 +1,22 @@
-require('material-design-lite/material.js');
-require('material-design-lite/material.css');
 require('normalize.css/normalize.css');
-require('styles/App.sass');
-// TODO try to install yui as a dependency
-//require('yui/yui/yui.js');
+require('styles/App.css');
 
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import configureStore from '../config/configureStore';
-import InitApp from './containers/InitAppComponent';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import Home from './pages/HomePageComponent'
+import React from 'react';
 
-const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
+let yeomanImage = require('../images/yeoman.png');
 
-class AppComponent extends Component {
+class AppComponent extends React.Component {
   render() {
     return (
-      <Provider store={store}>
-        <InitApp />
-        { /* TODO import pagination here */ }
-        <Router history={history}>
-          <Route path="/" component={App}>
-            <IndexRoute component={Home} />
-            {/*<Route path="" component={Foo} />
-            <Route path="bar" component={Bar} />*/}
-          </Route>
-        </Router>
-      </Provider>
+      <div className="index">
+        <img src={yeomanImage} alt="Yeoman Generator" />
+        <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
+      </div>
     );
   }
 }
+
+AppComponent.defaultProps = {
+};
 
 export default AppComponent;

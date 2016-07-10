@@ -1,153 +1,41 @@
-'use strict'
-
-require('styles/containers/InitApp.sass')
-
-import React, { PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { fetchTranslationsData } from '../actions/translation.action'
-import { fetchProviderData } from '../actions/provider.action'
-import { getCountry } from '../actions/storage.action'
-import Root from './root.abstract'
-import LayoutTabs from '../components/layouts/TabsComponent'
-import Notification from '../components/notifications/notification.component'
-import * as NotificationActions from '../actions/notification.action'
-import * as DB from '../services/storage.service'
-
-class App extends Root {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      modals: {
-        isShowingCoutries: false,
-        isShowingMessage: false
-      },
-      message: '',
-      appName: 'Podcaster',
-      pages: [{
-        id: 'home',
-        title: 'Home',
-        active: true,
-        data: {
-          topodcasts: [{
-            id: 1,
-            name: 'La órbita de Endor',
-            icon: '//cdn.webstatics.net/podcast/podcastimage_477376.gif'
-          }, {
-            id: 2,
-            name: 'Todopoderosos',
-            icon: '//pbs.twimg.com/profile_images/565955444963692544/wXLomgB-.jpeg'
-          }, {
-            id: 3,
-            name: 'La rosa de los vientos',
-            icon: '//epg.ondacero.es/static/images/sections/section_1002825.png'
-          }, {
-            id: 4,
-            name: 'Negra y criminal',
-            icon: '//cdn.webstatics.net/podcast/podcastimage_477376.gif'
-          }, {
-            id: 5,
-            name: 'Carne cruda',
-            icon: '//lareplica.es/wp-content/uploads/2015/07/Carne_cruda_logo.jpg'
-          }]
-        }
-      }, {
-        id: 'podcasts',
-        title: 'My podcasts'
-      }, {
-        id: 'trends',
-        title: 'Last trends'
-      }, {
-        id: 'settings',
-        title: 'Settings'
-      }]
-    };
-  }
-
-  componentDidMount() {
-    this.props.dispatch(fetchTranslationsData())
-    this.props.dispatch(fetchProviderData())
-    super.componentDidMount()
-  }
-
-  componentWillReceiveProps(nextProps) {
-    super.componentWillReceiveProps(nextProps)
-    const {dispatch, provider, translations} = nextProps
-
-    // Check if there is a country stored 
-    if (!DB.fetch(DB.COUNTRY_KEY)) {
-      this.context.router.push('/first-time/country')
-    } else {
-      dispatch(getCountry())
-      //TODO fetch rss for country 
-      
-    }
-  }
-
-  reload() {
-    window.location.reload();
-  }
-
-  manageData(data) {
-    if (data.countries && data.countries.length > 0) {
-      window.loadingScreen.finish()
-    }
-
-    if (data.ready) {
-      this.closeSplash()
-    }
-  }
-
-  closeSplash() {
-    if (super.isSplash())
-      window.loadingScreen.finish()
-  }
-
+/* CAUTION: When using the generators, this file is modified in some places.
+ *          This is done via AST traversal - Some of your formatting may be lost
+ *          in the process - no functionality should be broken though.
+ *          This modifications only run once when the generator is invoked - if
+ *          you edit them, they are not updated again.
+ */
+import React, {
+  Component,
+  PropTypes
+} from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import Main from '../components/Main';
+/* Populated by react-webpack-redux:reducer */
+class App extends Component {
   render() {
-    const { provider } = this.props
-
-    return (
-      <div className="index">
-
-        <Notification />
-
-        { provider.ready &&
-            <LayoutTabs appName={this.props.translations.appName} pages={this.state.pages}>
-              {this.props.children}
-            </LayoutTabs> }
-      </div>
-    );
+    const {actions, notifications} = this.props;
+    return <Main actions={actions} notifications={notifications}/>;
   }
 }
-
-App.displayName = 'ContainersApp';
-
-// Uncomment properties you need
-
+/* Populated by react-webpack-redux:reducer
+ *
+ * HINT: if you adjust the initial type of your reducer, you will also have to
+ *       adjust it here.
+ */
 App.propTypes = {
-  provider: PropTypes.object.isRequired
-}
-
-App.contextTypes = {
-  router: React.PropTypes.object
-}
-// App.defaultProps = {};
-
-const mapStateToProps = state => {
-  const { provider, translations } = state
-
-  return {
-    provider,
-    translations
-  }
-}
-const mapDispatchToProps = dispatch => {
-  return {
-    ...bindActionCreators(NotificationActions, dispatch),
-    dispatch
-  };
+  actions: PropTypes.object.isRequired,
+  notifications: PropTypes.object.isRequired
 };
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+function mapStateToProps(state) {
+  /* Populated by react-webpack-redux:reducer */
+  const props = { notifications: state.notifications };
+  return props;
+}
+function mapDispatchToProps(dispatch) {
+  /* Populated by react-webpack-redux:action */
+  const actions = {};
+  const actionMap = { actions: bindActionCreators(actions, dispatch) };
+  return actionMap;
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);
