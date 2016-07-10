@@ -3,6 +3,8 @@
  * If you change the type from object to something else, do not forget to update
  * src/container/App.js accordingly.
  */
+import {SHOW_ALERT} from '../actions/const'
+
 const initialState = {};
 
 module.exports = function(state = initialState, action) {
@@ -10,12 +12,15 @@ module.exports = function(state = initialState, action) {
   //let nextState = Object.assign({}, state);
 
   switch(action.type) {
-    /*
     case 'YOUR_ACTION': {
       // Modify next state depending on the action and return it
-      return nextState;
-    } break;
-    */
+      return {
+          ...state,
+          alert: {
+            ...action.alert
+          }
+      };
+    }
     default: {
       /* Return original state if no actions were consumed. */
       return state;
