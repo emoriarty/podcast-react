@@ -4,14 +4,18 @@ import {
 
 class Base extends Component {
   componentWillReceiveProps(nextProps) {
-    let provider = nextProps.provider
-    let trans = nextProps.translations
+    let provider = nextProps.provider;
+    let trans = nextProps.translations;
+    const config = nextProps.config;
 
-    if (provider.fail || provider.ready
-      && trans.fail || trans.ready
+    if (config.fail || config.ready
       && this.isSplash()) {
-      window.loadingScreen.finish()
+      window.loadingScreen.finish();
     }
+  }
+
+  isSplash() {
+    return !document.body.classList.contains('pg-loaded');
   }
 }
 

@@ -1,34 +1,45 @@
 import React, {
+  Component,
   PropTypes
 } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Base from './abstract/Base';
+import * as NotificationActions from '../actions/notifications'
 
-class FirstTime extends Base {
-  constructor(props) {
-    super(props)
-  }
-
+class FirstTime extends Component {
   render() {
-    const {actions} = this.props;
-    return <Main actions={actions}/>;
+    const { config } = this.props;
+    return(
+      <div className="firstTime">
+        { 
+          config.ready &&
+          <h1>First time</h1> 
+        }
+      </div>
+    );
   }
 }
 
-FirstTime.propTypes = {
-  actions: PropTypes.object.isRequired
-};
+//FirstTime.propTypes = {
+//  actions: PropTypes.object.isRequired
+//};
 
 function mapStateToProps(state) {
-  const props = {};
-  return props;
+  const { config } = state
+
+  return {
+    config
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-  const actions = {};
-  const actionMap = { actions: bindActionCreators(actions, dispatch) };
-  return actionMap;
+  return {
+    actions: {
+      ...bindActionCreators(NotificationActions, dispatch)
+    },
+    dispatch
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstTime);

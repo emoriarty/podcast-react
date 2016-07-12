@@ -6,6 +6,8 @@
   "main": "",
   "scripts": {
     "clean": "rimraf dist/*",
+    "bourbon:install": "cd src/styles && bourbon install && bitters install && neat install",
+    "bourbon:update": "cd src/styles && bourbon update && neat update",
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
     "dist": "npm run copy & webpack --env=dist",
     "lint": "eslint ./src",
@@ -53,18 +55,19 @@
     "karma-webpack": "^1.7.0",
     "minimist": "^1.2.0",
     "mocha": "^2.2.5",
+    "node-bourbon": "^4.2.8",
+    "node-sass": "^3.4.2",
     "null-loader": "^0.1.1",
     "open": "0.0.5",
     "phantomjs-prebuilt": "^2.0.0",
     "react-addons-test-utils": "^15.0.0",
     "react-hot-loader": "^1.2.9",
     "rimraf": "^2.4.3",
+    "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.0",
-    "webpack-dev-server": "^1.12.0",
-    "sass-loader": "^3.1.2",
-    "node-sass": "^3.4.2"
+    "webpack-dev-server": "^1.12.0"
   },
   "dependencies": {
     "core-js": "^2.0.0",

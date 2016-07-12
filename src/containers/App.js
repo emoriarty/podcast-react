@@ -4,18 +4,45 @@
  *          This modifications only run once when the generator is invoked - if
  *          you edit them, they are not updated again.
  */
-import React, {
-  Component,
-  PropTypes
-} from 'react';
+import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Main from '../components/Main';
+import Base from './abstract/Base';
+//Components
+import NotificationComponent from '../components/notifications/NotificationComponent'
+//Actions
+import * as NotificationActions from '../actions/notifications'
+import {fetchConfigData} from '../actions/config/fetchConfig'
+//Services
+import * as DB from '../services/storage'
+
 /* Populated by react-webpack-redux:reducer */
-class App extends Component {
+class App extends Base {
+  componentDidMount() {
+    this.props.actions.fetchConfigData();
+
+    // Check if there is a country stored 
+    if (!DB.fetch(DB.COUNTRY_KEY)) {  
+      this.context.router.push('first-time');
+    } else {
+      dispatch(getCountry())
+      //TODO fetch rss for country   
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    super.componentWillReceiveProps(nextProps);
+    //const {config, routing} = nextProps;
+  }
+
   render() {
-    const {actions, notifications} = this.props;
-    return <Main actions={actions} notifications={notifications}/>;
+    const {config} = this.props;
+    return (
+      <div className="index">
+        <NotificationComponent />
+        { this.props.children }
+      </div>
+    );
   }
 }
 /* Populated by react-webpack-redux:reducer
@@ -25,17 +52,35 @@ class App extends Component {
  */
 App.propTypes = {
   actions: PropTypes.object.isRequired,
-  notifications: PropTypes.object.isRequired
+  notifications: PropTypes.object.isRequired,
+  routing: PropTypes.object.isRequired
+};
+App.contextTypes = {
+  router: React.PropTypes.object
 };
 function mapStateToProps(state) {
   /* Populated by react-webpack-redux:reducer */
-  const props = { notifications: state.notifications };
+  const { config, notifications, routing } = state
+  const props = {
+    config,
+    notifications,
+    routing
+  };
   return props;
 }
 function mapDispatchToProps(dispatch) {
   /* Populated by react-webpack-redux:action */
-  const actions = { showAlert: require('../actions/notifications/showAlert.js') };
-  const actionMap = { actions: bindActionCreators(actions, dispatch) };
-  return actionMap;
+  const actions = {
+    fetchConfigData,
+    fetchTranslations: require('../actions/translations/fetchTranslations.js'),
+    fetchProviderData: require('../actions/provider/fetchProviderData.js'),
+    ...bindActionCreators(NotificationActions, dispatch)
+  };
+  const all = {
+    actions: bindActionCreators(actions, dispatch),
+    dispatch
+  }
+  //console.log(all)
+  return all;
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);
