@@ -5,18 +5,20 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Base from './abstract/Base';
-import * as NotificationActions from '../actions/notifications'
+import * as NotificationActions from '../actions/notifications';
+// Components
+import BasicLayout from '../components/layouts/BasicComponent';
 
 class FirstTime extends Component {
   render() {
     const { config } = this.props;
     return(
-      <div className="firstTime">
+      <BasicLayout appName="">
         { 
           config.ready &&
           <h1>First time</h1> 
         }
-      </div>
+      </BasicLayout>
     );
   }
 }
