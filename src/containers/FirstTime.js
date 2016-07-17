@@ -11,11 +11,12 @@ import BasicLayout from '../components/layouts/BasicComponent';
 
 class FirstTime extends Component {
   render() {
-    const { config } = this.props;
+    const { config, translations } = this.props;
     return(
-      <BasicLayout appName="">
+      <BasicLayout title={translations.ready ? translations.data.appName : ''}>
         { 
           config.ready &&
+          translations.ready &&
           <h1>First time</h1> 
         }
       </BasicLayout>
@@ -23,16 +24,19 @@ class FirstTime extends Component {
   }
 }
 
-//FirstTime.propTypes = {
-//  actions: PropTypes.object.isRequired
-//};
+FirstTime.propTypes = {
+  actions: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
+  translations: PropTypes.object.isRequired
+};
 
 function mapStateToProps(state) {
-  const { config } = state
+  const { config, translations } = state;
 
   return {
-    config
-  }
+    config,
+    translations
+  };
 }
 
 function mapDispatchToProps(dispatch) {

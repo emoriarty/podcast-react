@@ -3,7 +3,7 @@
  * If you change the type from object to something else, do not forget to update
  * src/container/App.js accordingly.
  */
-import {REQUEST_CONFIG, RECEIVE_CONFIG, ERROR_CONFIG} from '../actions/const'
+import {REQUEST_TRANSLATIONS, RECEIVE_TRANSLATIONS, ERROR_TRANSLATIONS} from '../actions/const'
 
 const initialState = {
   ready: false,
@@ -13,20 +13,20 @@ const initialState = {
 
 function checkFetchActions(state, action) {
   switch(action.type) {
-    case REQUEST_CONFIG:
+    case REQUEST_TRANSLATIONS:
       return {
         ready: false,
         loading: true,
         fail: false
       }
-    case RECEIVE_CONFIG:
+    case RECEIVE_TRANSLATIONS:
       return {
         ready: true,
         loading: false,
         fail: false,
         ...action.data
       }
-    case ERROR_CONFIG:
+    case ERROR_TRANSLATIONS:
       return {
         ready: false,
         loading: false,
@@ -40,9 +40,9 @@ module.exports = function(state = initialState, action) {
   //let nextState = Object.assign({}, state);
 
   switch(action.type) {
-    case REQUEST_CONFIG:
-    case RECEIVE_CONFIG:
-    case ERROR_CONFIG: 
+    case REQUEST_TRANSLATIONS:
+    case RECEIVE_TRANSLATIONS:
+    case ERROR_TRANSLATIONS: 
       return checkFetchActions(state, action);
     default: 
       return state;

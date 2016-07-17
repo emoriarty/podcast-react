@@ -11,7 +11,7 @@ class BasicComponent extends React.Component {
     return (
       <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
-        <Header title={this.props.appName} />
+        <Header title={this.props.title} />
         
         <main className="mdl-layout__content">
           {this.props.children}
@@ -26,7 +26,7 @@ BasicComponent.displayName = 'LayoutsBasicComponent';
 
 // Uncomment properties you need
 BasicComponent.propTypes = {
-  appName: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired
 };
 // BasicComponent.defaultProps = {};
 

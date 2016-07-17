@@ -7,11 +7,12 @@
  *          you edit them, they are not updated again.
  */
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux'
+import { routerReducer } from 'react-router-redux';
 /* Populated by react-webpack-redux:reducer */
 const reducers = {
   config: require('../reducers/config.js'),
   notifications: require('../reducers/notifications.js'),
-  routing: routerReducer
+  routing: routerReducer,
+  translations: require('../reducers/translations.js')
 };
 module.exports = combineReducers(reducers);

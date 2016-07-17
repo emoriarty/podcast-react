@@ -9,17 +9,19 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Base from './abstract/Base';
 //Components
-import NotificationComponent from '../components/notifications/NotificationComponent'
+import NotificationComponent from '../components/notifications/NotificationComponent';
 //Actions
-import * as NotificationActions from '../actions/notifications'
-import {fetchConfigData} from '../actions/config/fetchConfig'
+import * as NotificationActions from '../actions/notifications';
+import {fetchConfigData} from '../actions/config/fetchConfig';
+import {fetchTranslationsData} from '../actions/translations/fetchTranslations';
 //Services
-import * as DB from '../services/storage'
+import * as DB from '../services/storage';
 
 /* Populated by react-webpack-redux:reducer */
 class App extends Base {
   componentDidMount() {
     this.props.actions.fetchConfigData();
+    this.props.actions.fetchTranslationsData();
 
     // Check if there is a country stored 
     if (!DB.fetch(DB.COUNTRY_KEY)) {  
@@ -52,6 +54,7 @@ class App extends Base {
  */
 App.propTypes = {
   actions: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
   notifications: PropTypes.object.isRequired,
   routing: PropTypes.object.isRequired
 };
@@ -60,9 +63,10 @@ App.contextTypes = {
 };
 function mapStateToProps(state) {
   /* Populated by react-webpack-redux:reducer */
-  const { config, notifications, routing } = state
+  const { config, translations, notifications, routing } = state
   const props = {
     config,
+    translations,
     notifications,
     routing
   };
@@ -72,7 +76,7 @@ function mapDispatchToProps(dispatch) {
   /* Populated by react-webpack-redux:action */
   const actions = {
     fetchConfigData,
-    fetchTranslations: require('../actions/translations/fetchTranslations.js'),
+    fetchTranslationsData,
     fetchProviderData: require('../actions/provider/fetchProviderData.js'),
     ...bindActionCreators(NotificationActions, dispatch)
   };
