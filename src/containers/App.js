@@ -14,6 +14,7 @@ import NotificationComponent from '../components/notifications/NotificationCompo
 import * as NotificationActions from '../actions/notifications';
 import {fetchConfigData} from '../actions/config/fetchConfig';
 import {fetchTranslationsData} from '../actions/translations/fetchTranslations';
+import {fetchProviderData} from '../actions/provider/fetchProviderData';
 //Services
 import * as DB from '../services/storage';
 
@@ -22,10 +23,11 @@ class App extends Base {
   componentDidMount() {
     this.props.actions.fetchConfigData();
     this.props.actions.fetchTranslationsData();
+    this.props.actions.fetchProviderData();
 
     // Check if there is a country stored 
     if (!DB.fetch(DB.COUNTRY_KEY)) {  
-      this.context.router.push('first-time');
+      this.context.router.push('first-time/country');
     } else {
       dispatch(getCountry())
       //TODO fetch rss for country   
@@ -77,7 +79,7 @@ function mapDispatchToProps(dispatch) {
   const actions = {
     fetchConfigData,
     fetchTranslationsData,
-    fetchProviderData: require('../actions/provider/fetchProviderData.js'),
+    fetchProviderData,
     ...bindActionCreators(NotificationActions, dispatch)
   };
   const all = {

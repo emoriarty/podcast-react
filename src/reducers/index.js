@@ -13,6 +13,7 @@ const reducers = {
   config: require('../reducers/config.js'),
   notifications: require('../reducers/notifications.js'),
   routing: routerReducer,
-  translations: require('../reducers/translations.js')
+  translations: require('../reducers/translations.js'),
+  provider: require('../reducers/provider.js')
 };
 module.exports = combineReducers(reducers);

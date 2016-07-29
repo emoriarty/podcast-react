@@ -1,5 +1,7 @@
 import {FETCH_TRANSLATIONS, REQUEST_TRANSLATIONS, RECEIVE_TRANSLATIONS, ERROR_TRANSLATIONS} from './../const';
 import {fetchTranslations} from '../../services/app';
+import {fetchMediaTypesTranslations, fetchCommonTranslations} from '../../services/itunes';
+import * as Notifications from '../notifications';
 
 function requestData() {
   return {
@@ -23,7 +25,7 @@ function errorFetchingData() {
 
 function shouldFetchData(state) {
   const translations = state.translations;
-  console.log('translations',translations)
+
   if (!translations.data) {
     return true;
   } else if (translations.loading) {
@@ -38,12 +40,17 @@ function fetchData(language) {
 
     try {
       Promise.all([
-        fetchTranslations(language)
+        fetchTranslations(language),
+        fetchCommonTranslations(language),
+        fetchMediaTypesTranslations(language)
       ])
       .then(
         (result) => {
+          console.log(result);
           dispatch(receiveData({
-            data: result[0].results
+            app: result[0].results,
+            commons: result[1],
+            mediaTypes: result[2]
           }));
         },
         (error) => {
@@ -57,6 +64,10 @@ function fetchData(language) {
     }
     catch (e) {
       dispatch(errorFetchingData(e));
+      dispatch(Notifications.showAlert({
+        title: 'Terminal error',
+        text: 'Could not be retrieved translations texts.'
+      }));
     }
   }
 }

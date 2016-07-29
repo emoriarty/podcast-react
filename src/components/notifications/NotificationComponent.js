@@ -10,7 +10,7 @@ require('styles/notifications/Notification.sass');
 
 class NotificationComponent extends React.Component {
   componentWillReceiveProps(nextProps) {
-    if (nextProps.notification.alert)
+    if (nextProps.notifications.alert)
       this.alert.el.showModal();
   }
 

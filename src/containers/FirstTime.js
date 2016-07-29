@@ -11,13 +11,14 @@ import BasicLayout from '../components/layouts/BasicComponent';
 
 class FirstTime extends Component {
   render() {
-    const { config, translations } = this.props;
+    const { config, translations, provider } = this.props;
     return(
-      <BasicLayout title={translations.ready ? translations.data.appName : ''}>
+      <BasicLayout title={translations.ready ? translations.data.app.appName : ''}>
         { 
           config.ready &&
           translations.ready &&
-          <h1>First time</h1> 
+          provider.ready &&
+          this.props.children
         }
       </BasicLayout>
     );
@@ -27,15 +28,17 @@ class FirstTime extends Component {
 FirstTime.propTypes = {
   actions: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
-  translations: PropTypes.object.isRequired
+  translations: PropTypes.object.isRequired,
+  provider: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
-  const { config, translations } = state;
+  const { config, translations, provider } = state;
 
   return {
     config,
-    translations
+    translations,
+    provider
   };
 }
 
